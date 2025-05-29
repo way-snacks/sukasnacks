@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snack Lezat - Cemilan Enak Kapan Saja!</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff8f0;
+      color: #333;
+    }
+    header, footer {
+      background-color: #ff6b6b;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+    nav a {
+      margin: 0 1rem;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .hero {
+      background: url('https://images.unsplash.com/photo-1601050691264-8eec8f0dcfb7') center/cover no-repeat;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+      text-align: center;
+      padding: 0 2rem;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      animation: fadeInDown 1s ease-out;
+    }
+    .section {
+      padding: 2rem;
+      max-width: 1100px;
+      margin: auto;
+      animation: fadeInUp 1s ease-out;
+    }
+    .products, .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    .cta-buttons a {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background-color: #ffa502;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    .cta-buttons a:hover {
+      background-color: #e67e22;
+    }
+    .bubble-slider {
+      overflow: hidden;
+      position: relative;
+      height: 60px;
+      display: flex;
+      align-items: center;
+    }
+    .bubble-track {
+      display: flex;
+      width: max-content;
+      animation: slideBubble 60s linear infinite;
+    }
+    .bubble-track > * {
+      margin-right: 2rem;
+    }
+    .bubble-item {
+      background-color: #ffeaa7;
+      color: #2d3436;
+      padding: 0.5rem 1rem 0.5rem 2rem;
+      border-radius: 20px;
+      white-space: nowrap;
+      font-weight: bold;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .bubble-item::before {
+      content: "\2714";
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: green;
+      font-size: 1rem;
+    }
+    .testimonials {
+      overflow: hidden;
+      position: relative;
+    }
+    .testimonials .testimonial-track {
+      display: flex;
+      width: max-content;
+      animation: slideBubble 60s linear infinite;
+    }
+    .testimonials .card {
+      min-width: 300px;
+      margin-right: 2rem;
+      white-space: normal;
+    }
+    @keyframes slideBubble {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes fadeInDown {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeInUp {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Snack Lezat</h1>
+    <nav>
+      <a href="#produk">Etalase</a>
+      <a href="#keunggulan">Keunggulan</a>
+      <a href="#testimoni">Testimoni</a>
+      <a href="#pesan">Cara Pesan</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Temukan Cemilan Favoritmu di Snack Lezat!</h1>
+  </section>
+
+  <section id="produk" class="section">
+    <h2>Etalase Produk</h2>
+    <div class="products">
+      <div class="card">
+        <img src="https://source.unsplash.com/300x200/?snack" alt="Snack 1">
+        <h3>Kripik Kentang Balado</h3>
+        <p>Pedas, gurih, dan renyah!</p>
+      </div>
+      <div class="card">
+        <img src="https://source.unsplash.com/300x200/?cookies" alt="Snack 2">
+        <h3>Kue Kering Coklat</h3>
+        <p>Manis dan lumer di mulut.</p>
+      </div>
+      <div class="card">
+        <img src="https://source.unsplash.com/300x200/?chips" alt="Snack 3">
+        <h3>Keripik Pisang Keju</h3>
+        <p>Perpaduan rasa manis dan gurih yang pas!</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="keunggulan" class="section">
+    <h2>Kenapa Pilih Snack Lezat?</h2>
+    <div class="bubble-slider">
+      <div class="bubble-track">
+        <div class="bubble-item">Bahan premium dan tanpa pengawet</div>
+        <div class="bubble-item">Rasa otentik, cocok untuk segala usia</div>
+        <div class="bubble-item">Kemasannya higienis dan praktis</div>
+        <div class="bubble-item">Varian rasa khas Indonesia</div>
+        <div class="bubble-item">Cocok untuk oleh-oleh & camilan keluarga</div>
+        <div class="bubble-item">Harga terjangkau dengan kualitas tinggi</div>
+        <div class="bubble-item">Diproduksi oleh UMKM lokal terpercaya</div>
+        <div class="bubble-item">Sudah mendapatkan Ijin P-IRT</div>
+        <div class="bubble-item">Sudah Halal MUI Jaminan</div>
+        <!-- Duplikat untuk loop seamless -->
+        <div class="bubble-item">Bahan premium dan tanpa pengawet</div>
+        <div class="bubble-item">Rasa otentik, cocok untuk segala usia</div>
+        <div class="bubble-item">Kemasannya higienis dan praktis</div>
+        <div class="bubble-item">Varian rasa khas Indonesia</div>
+        <div class="bubble-item">Cocok untuk oleh-oleh & camilan keluarga</div>
+        <div class="bubble-item">Harga terjangkau dengan kualitas tinggi</div>
+        <div class="bubble-item">Diproduksi oleh UMKM lokal terpercaya</div>
+        <div class="bubble-item">Sudah mendapatkan Ijin P-IRT</div>
+        <div class="bubble-item">Sudah Halal MUI Jaminan</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimoni" class="section">
+    <h2>Apa Kata Mereka?</h2>
+    <div class="testimonials">
+      <div class="testimonial-track">
+        <div class="card">
+          <p>"Rasanya enak banget, anak saya suka semua variannya!"</p>
+          <strong>- Ibu Rani, Surabaya</strong>
+        </div>
+        <div class="card">
+          <p>"Snack Lezat selalu jadi teman saat kerja di kantor!"</p>
+          <strong>- Budi, Jakarta</strong>
+        </div>
+        <div class="card">
+          <p>"Kemasannya menarik dan pengirimannya cepat!"</p>
+          <strong>- Lina, Bandung</strong>
+        </div>
+        <!-- Duplikat untuk loop seamless -->
+        <div class="card">
+          <p>"Rasanya enak banget, anak saya suka semua variannya!"</p>
+          <strong>- Ibu Rani, Surabaya</strong>
+        </div>
+        <div class="card">
+          <p>"Snack Lezat selalu jadi teman saat kerja di kantor!"</p>
+          <strong>- Budi, Jakarta</strong>
+        </div>
+        <div class="card">
+          <p>"Kemasannya menarik dan pengirimannya cepat!"</p>
+          <strong>- Lina, Bandung</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pesan" class="section">
+    <h2>Cara Pesan</h2>
+    <p>Dapatkan produk Snack Lezat dengan mudah di marketplace favoritmu!</p>
+    <div class="cta-buttons">
+      <a href="https://shopee.co.id" target="_blank">Beli di Shopee</a>
+      <a href="https://tokopedia.com" target="_blank">Beli di Tokopedia</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Snack Lezat. Semua hak dilindungi.</p>
+  </footer>
+</body>
+</html>
