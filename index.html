@@ -19,6 +19,18 @@
       text-align: center;
       padding: 1.5rem 1rem;
     }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    body {
+      padding-top: 100px;
+    }
     nav a {
       margin: 0 1rem;
       color: white;
@@ -144,13 +156,15 @@
 
 <body>
   <header>
-    <h1>Snack Lezat</h1>
-    <nav>
+    <div style="display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: auto; flex-wrap: wrap;">
+      <h1 style="margin: 0; font-size: 1.5rem; text-align: left;">Snack Lezat</h1>
+      <nav>
       <a href="#produk">Etalase</a>
       <a href="#keunggulan">Keunggulan</a>
       <a href="#testimoni">Testimoni</a>
       <a href="#pesan">Cara Pesan</a>
     </nav>
+    </div>
   </header>
 
   <section class="hero">
@@ -161,17 +175,17 @@
     <h2>Etalase Produk</h2>
     <div class="products">
       <div class="card">
-        <img src="https://source.unsplash.com/300x200/?snack" alt="Snack 1">
+        <img src="https://dummyimage.com/300x200/ffcc99/000000.png&text=Kripik+Kentang+Balado" alt="Snack 1">
         <h3>Kripik Kentang Balado</h3>
         <p>Pedas, gurih, dan renyah!</p>
       </div>
       <div class="card">
-        <img src="https://source.unsplash.com/300x200/?cookies" alt="Snack 2">
+        <img src="https://dummyimage.com/300x200/ffcc99/000000.png&text=Kue+Kering+Coklat" alt="Snack 2">
         <h3>Kue Kering Coklat</h3>
         <p>Manis dan lumer di mulut.</p>
       </div>
       <div class="card">
-        <img src="https://source.unsplash.com/300x200/?chips" alt="Snack 3">
+        <img src="https://dummyimage.com/300x200/ffcc99/000000.png&text=Keripik+Pisang+Keju" alt="Snack 3">
         <h3>Keripik Pisang Keju</h3>
         <p>Perpaduan rasa manis dan gurih yang pas!</p>
       </div>
@@ -242,8 +256,12 @@
     <h2>Cara Pesan</h2>
     <p>Dapatkan produk Snack Lezat dengan mudah di marketplace favoritmu!</p>
     <div class="cta-buttons">
-      <a href="https://shopee.co.id" target="_blank">Beli di Shopee</a>
-      <a href="https://tokopedia.com" target="_blank">Beli di Tokopedia</a>
+      <a href="https://shopee.co.id/suka_snacks" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/24/107/107831.png" alt="Keranjang" style="vertical-align: middle; margin-right: 8px;">Beli di Shopee
+      </a>
+      <a href="https://tokopedia.com" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/24/107/107831.png" alt="Keranjang" style="vertical-align: middle; margin-right: 8px;">Beli di Tokopedia
+      </a>
     </div>
   </section>
 
