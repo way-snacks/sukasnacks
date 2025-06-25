@@ -1,107 +1,102 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daftar Rumah Sakit Terdekat - Surabaya</title>
-<script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<script>tailwind.config={theme:{extend:{colors:{primary:'#10b981',secondary:'#0ea5e9'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
-<style>
-body { font-family: 'Inter', sans-serif; background-color: #f9fafb; }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background-color: rgba(0, 0, 0, 0.8); color: white; padding: 12px 24px; border-radius: 8px; font-size: 14px; opacity: 0; transition: opacity 0.3s ease; z-index: 50; }
-.toast.show { opacity: 1; }
-.filter-button-active { animation: subtle-press 0.3s ease; }
-@keyframes subtle-press { 0% { transform: scale(1); } 50% { transform: scale(0.95); } 100% { transform: scale(1); } }
-.hospital-card { transition: transform 0.2s, box-shadow 0.2s; }
-.hospital-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
-.contact-btn { transition: transform 0.2s; }
-.contact-btn:hover { transform: translateY(-2px); }
-input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-results-button, input[type="search"]::-webkit-search-results-decoration { display: none; }
-input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daftar Rumah Sakit Terdekat - Surabaya</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f9fafb; }
+    .hospital-card { transition: transform 0.2s, box-shadow 0.2s; }
+    .hospital-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); }
+  </style>
 </head>
-<body class="min-h-screen">
-<div class="container mx-auto px-4 py-8 max-w-6xl">
-<h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Daftar Rumah Sakit Terdekat - Surabaya</h1>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-<div class="hospital-card bg-white rounded-lg shadow-md p-6">
-<h2 class="text-xl font-semibold text-gray-800 mb-2">RSUD Dr. Soetomo</h2>
-<p class="text-sm text-gray-600 mb-2">Jl. Mayjen Prof. Dr. Moestopo No.6-8, Tambaksari, Surabaya</p>
-<p class="text-sm text-primary font-medium mb-4">1.2 km dari lokasi Anda</p>
-<div class="flex justify-between items-center mb-4">
-<span class="text-yellow-500"><i class="ri-star-fill"></i> 4.7 (1050)</span>
-</div>
-<div class="flex space-x-4">
-<a href="tel:0315501078" class="contact-btn flex-1 text-center bg-green-100 text-green-700 py-2 rounded">Telepon</a>
-<a href="https://wa.me/6281234567890" class="contact-btn flex-1 text-center bg-green-600 text-white py-2 rounded">WhatsApp</a>
-</div>
-</div>
-<div class="hospital-card bg-white rounded-lg shadow-md p-6">
-<h2 class="text-xl font-semibold text-gray-800 mb-2">RS Premier Surabaya</h2>
-<p class="text-sm text-gray-600 mb-2">Jl. Nginden Intan Barat Blok B, Nginden Jangkungan, Surabaya</p>
-<p class="text-sm text-primary font-medium mb-4">2.4 km dari lokasi Anda</p>
-<div class="flex justify-between items-center mb-4">
-<span class="text-yellow-500"><i class="ri-star-fill"></i> 4.6 (890)</span>
-</div>
-<div class="flex space-x-4">
-<a href="tel:0315937888" class="contact-btn flex-1 text-center bg-green-100 text-green-700 py-2 rounded">Telepon</a>
-<a href="https://wa.me/6281298765432" class="contact-btn flex-1 text-center bg-green-600 text-white py-2 rounded">WhatsApp</a>
-</div>
-</div>
-<div class="hospital-card bg-white rounded-lg shadow-md p-6">
-<h2 class="text-xl font-semibold text-gray-800 mb-2">Puskesmas Ketabang</h2>
-<p class="text-sm text-gray-600 mb-2">Jl. Jaksa Agung Suprapto No.1, Ketabang, Genteng, Surabaya</p>
-<p class="text-sm text-primary font-medium mb-4">1.8 km dari lokasi Anda</p>
-<div class="flex justify-between items-center mb-4">
-<span class="text-yellow-500"><i class="ri-star-fill"></i> 4.5 (210)</span>
-</div>
-<div class="flex space-x-4">
-<a href="tel:0315346371" class="contact-btn flex-1 text-center bg-green-100 text-green-700 py-2 rounded">Telepon</a>
-<a href="https://wa.me/6285712345678" class="contact-btn flex-1 text-center bg-green-600 text-white py-2 rounded">WhatsApp</a>
-</div>
-</div>
-<div class="hospital-card bg-white rounded-lg shadow-md p-6">
-<h2 class="text-xl font-semibold text-gray-800 mb-2">Puskesmas Tambak Rejo</h2>
-<p class="text-sm text-gray-600 mb-2">Jl. Tambak Rejo No.93, Simokerto, Surabaya</p>
-<p class="text-sm text-primary font-medium mb-4">3.0 km dari lokasi Anda</p>
-<div class="flex justify-between items-center mb-4">
-<span class="text-yellow-500"><i class="ri-star-fill"></i> 4.3 (150)</span>
-</div>
-<div class="flex space-x-4">
-<a href="tel:0313529181" class="contact-btn flex-1 text-center bg-green-100 text-green-700 py-2 rounded">Telepon</a>
-<a href="https://wa.me/6281387654321" class="contact-btn flex-1 text-center bg-green-600 text-white py-2 rounded">WhatsApp</a>
-</div>
-</div>
-<div class="hospital-card bg-white rounded-lg shadow-md p-6">
-<h2 class="text-xl font-semibold text-gray-800 mb-2">RSUD Bhakti Dharma Husada</h2>
-<p class="text-sm text-gray-600 mb-2">Jl. Raya Kendung No.115, Sememi, Benowo, Surabaya</p>
-<p class="text-sm text-primary font-medium mb-4">4.7 km dari lokasi Anda</p>
-<div class="flex justify-between items-center mb-4">
-<span class="text-yellow-500"><i class="ri-star-fill"></i> 4.4 (300)</span>
-</div>
-<div class="flex space-x-4">
-<a href="tel:0317407433" class="contact-btn flex-1 text-center bg-green-100 text-green-700 py-2 rounded">Telepon</a>
-<a href="https://wa.me/6289612345678" class="contact-btn flex-1 text-center bg-green-600 text-white py-2 rounded">WhatsApp</a>
-</div>
-</div>
-<div class="hospital-card bg-white rounded-lg shadow-md p-6">
-<h2 class="text-xl font-semibold text-gray-800 mb-2">Puskesmas Manukan Kulon</h2>
-<p class="text-sm text-gray-600 mb-2">Jl. Manukan Tama No.1, Tandes, Surabaya</p>
-<p class="text-sm text-primary font-medium mb-4">5.3 km dari lokasi Anda</p>
-<div class="flex justify-between items-center mb-4">
-<span class="text-yellow-500"><i class="ri-star-fill"></i> 4.2 (180)</span>
-</div>
-<div class="flex space-x-4">
-<a href="tel:0317523737" class="contact-btn flex-1 text-center bg-green-100 text-green-700 py-2 rounded">Telepon</a>
-<a href="https://wa.me/6281234987654" class="contact-btn flex-1 text-center bg-green-600 text-white py-2 rounded">WhatsApp</a>
-</div>
-</div>
-</div>
-</div>
+<body class="min-h-screen px-4 py-6 max-w-6xl mx-auto">
+  <h1 class="text-2xl font-bold text-center mb-4">Daftar Rumah Sakit Terdekat - Surabaya</h1>
+
+  <!-- Lokasi dan Pencarian -->
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+    <div class="flex items-center gap-2">
+      <i class="ri-map-pin-line text-lg text-primary"></i>
+      <span id="location-info" class="text-gray-700 text-sm">Mendeteksi lokasi...</span>
+      <button onclick="detectLocation()" class="text-primary underline text-sm ml-2">Refresh</button>
+    </div>
+    <input type="text" id="search" placeholder="Cari rumah sakit..." class="w-full md:w-1/3 px-4 py-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"/>
+  </div>
+
+  <!-- Daftar Rumah Sakit -->
+  <div id="hospital-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+  <script>
+    const hospitals = [
+      { name: "RSUD Dr. Soetomo", address: "Jl. Moestopo, Tambaksari", lat: -7.2651, lng: 112.7552, rating: 4.7, reviews: 1050, phone: "0315501078", wa: "6281234567890" },
+      { name: "RS Premier Surabaya", address: "Nginden Jangkungan", lat: -7.3006, lng: 112.7631, rating: 4.6, reviews: 890, phone: "0315937888", wa: "6281298765432" },
+      { name: "Puskesmas Ketabang", address: "Ketabang, Genteng", lat: -7.2650, lng: 112.7460, rating: 4.5, reviews: 210, phone: "0315346371", wa: "6285712345678" },
+      { name: "Puskesmas Tambak Rejo", address: "Simokerto", lat: -7.2523, lng: 112.7489, rating: 4.3, reviews: 150, phone: "0313529181", wa: "6281387654321" },
+      { name: "RSUD Bhakti Dharma Husada", address: "Sememi, Benowo", lat: -7.2299, lng: 112.6487, rating: 4.4, reviews: 300, phone: "0317407433", wa: "6289612345678" },
+      { name: "Puskesmas Manukan Kulon", address: "Tandes", lat: -7.2440, lng: 112.6779, rating: 4.2, reviews: 180, phone: "0317523737", wa: "6281234987654" }
+    ];
+
+    let userLat = null;
+    let userLng = null;
+
+    function detectLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          userLat = pos.coords.latitude;
+          userLng = pos.coords.longitude;
+          document.getElementById('location-info').textContent = "Lokasi terdeteksi";
+          renderHospitals();
+        }, () => {
+          document.getElementById('location-info').textContent = "Tidak dapat mendeteksi lokasi";
+          renderHospitals();
+        });
+      } else {
+        document.getElementById('location-info').textContent = "Geolokasi tidak didukung";
+      }
+    }
+
+    function calculateDistance(lat1, lng1, lat2, lng2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLng = (lng2 - lng1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLng/2) * Math.sin(dLng/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return (R * c).toFixed(1);
+    }
+
+    function renderHospitals() {
+      const list = document.getElementById('hospital-list');
+      const search = document.getElementById('search').value.toLowerCase();
+      list.innerHTML = '';
+
+      hospitals
+        .filter(h => h.name.toLowerCase().includes(search) || h.address.toLowerCase().includes(search))
+        .map(h => {
+          const distance = (userLat && userLng) ? `${calculateDistance(userLat, userLng, h.lat, h.lng)} km dari lokasi Anda` : h.address;
+          return `
+            <div class="hospital-card bg-white p-4 rounded shadow">
+              <h2 class="font-semibold text-lg mb-1">${h.name}</h2>
+              <p class="text-sm text-gray-500 mb-1">${h.address}</p>
+              <p class="text-sm text-primary font-medium mb-2">${distance}</p>
+              <div class="text-sm text-yellow-500 mb-3"><i class="ri-star-fill"></i> ${h.rating} (${h.reviews})</div>
+              <div class="flex space-x-2">
+                <a href="tel:${h.phone}" class="flex-1 bg-green-100 text-green-700 text-center py-2 rounded">Telepon</a>
+                <a href="https://wa.me/${h.wa}" class="flex-1 bg-green-600 text-white text-center py-2 rounded">WhatsApp</a>
+              </div>
+            </div>`;
+        }).forEach(html => list.innerHTML += html);
+    }
+
+    document.getElementById('search').addEventListener('input', renderHospitals);
+    detectLocation();
+  </script>
 </body>
 </html>
