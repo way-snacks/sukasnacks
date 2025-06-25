@@ -6,96 +6,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Daftar Rumah Sakit Terdekat - Surabaya</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; background-color: #f9fafb; }
     .hospital-card { transition: transform 0.2s, box-shadow 0.2s; }
-    .hospital-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); }
+    .hospital-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
   </style>
 </head>
 <body class="min-h-screen px-4 py-6 max-w-6xl mx-auto">
   <h1 class="text-2xl font-bold text-center mb-4">Daftar Rumah Sakit Terdekat - Surabaya</h1>
 
-  <!-- Lokasi dan Pencarian -->
   <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 text-gray-700">
       <i class="ri-map-pin-line text-lg text-primary"></i>
-      <span id="location-info" class="text-gray-700 text-sm">Mendeteksi lokasi...</span>
+      <span id="location-info" class="text-sm">Mendeteksi lokasi...</span>
       <button onclick="detectLocation()" class="text-primary underline text-sm ml-2">Refresh</button>
     </div>
     <input type="text" id="search" placeholder="Cari rumah sakit..." class="w-full md:w-1/3 px-4 py-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"/>
   </div>
 
-  <!-- Daftar Rumah Sakit -->
   <div id="hospital-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
   <script>
     const hospitals = [
-      { name: "RSUD Dr. Soetomo", address: "Jl. Moestopo, Tambaksari", lat: -7.2651, lng: 112.7552, rating: 4.7, reviews: 1050, phone: "0315501078", wa: "6281234567890" },
+      { name: "RSUD Dr. Soetomo", address: "Tambaksari", lat: -7.2651, lng: 112.7552, rating: 4.7, reviews: 1050, phone: "0315501078", wa: "6281234567890" },
       { name: "RS Premier Surabaya", address: "Nginden Jangkungan", lat: -7.3006, lng: 112.7631, rating: 4.6, reviews: 890, phone: "0315937888", wa: "6281298765432" },
-      { name: "Puskesmas Ketabang", address: "Ketabang, Genteng", lat: -7.2650, lng: 112.7460, rating: 4.5, reviews: 210, phone: "0315346371", wa: "6285712345678" },
-      { name: "Puskesmas Tambak Rejo", address: "Simokerto", lat: -7.2523, lng: 112.7489, rating: 4.3, reviews: 150, phone: "0313529181", wa: "6281387654321" },
-      { name: "RSUD Bhakti Dharma Husada", address: "Sememi, Benowo", lat: -7.2299, lng: 112.6487, rating: 4.4, reviews: 300, phone: "0317407433", wa: "6289612345678" },
-      { name: "Puskesmas Manukan Kulon", address: "Tandes", lat: -7.2440, lng: 112.6779, rating: 4.2, reviews: 180, phone: "0317523737", wa: "6281234987654" }
+      { name: "RS William Booth", address: "Sawahan", lat: -7.2619, lng: 112.7261, rating: 4.5, reviews: 410, phone: "0315345005", wa: "6282134567890" },
+      { name: "RSAL Dr. Ramelan", address: "Embong Kaliasin", lat: -7.2706, lng: 112.7461, rating: 4.4, reviews: 500, phone: "0313522244", wa: "6283134567890" },
+      { name: "RS Bhayangkara HS Samsoeri", address: "Gayungan", lat: -7.3231, lng: 112.7376, rating: 4.3, reviews: 320, phone: "0318283600", wa: "6284134567890" },
+      { name: "RS Islam Jemursari", address: "Tenggilis Mejoyo", lat: -7.3204, lng: 112.7529, rating: 4.2, reviews: 450, phone: "0318410298", wa: "6285134567890" },
+      { name: "RS Islam A. Yani", address: "Gayungan", lat: -7.3200, lng: 112.7410, rating: 4.4, reviews: 370, phone: "0318284810", wa: "6286134567890" },
+      { name: "RS Gotong Royong", address: "Simokerto", lat: -7.2429, lng: 112.7586, rating: 4.1, reviews: 270, phone: "0313719971", wa: "6287134567890" },
+      { name: "RS Manyar Medical Centre", address: "Mulyorejo", lat: -7.2733, lng: 112.7910, rating: 4.0, reviews: 190, phone: "0315937878", wa: "6288134567890" }
     ];
 
-    let userLat = null;
-    let userLng = null;
+    let userLat = null, userLng = null;
 
     function detectLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
+      const info = document.getElementById('location-info');
+      info.textContent = 'Mendeteksi lokasi...';
+      if (!navigator.geolocation) {
+        info.textContent = 'Geolokasi tidak didukung';
+        renderList();
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        pos => {
           userLat = pos.coords.latitude;
           userLng = pos.coords.longitude;
-          document.getElementById('location-info').textContent = "Lokasi terdeteksi";
-          renderHospitals();
-        }, () => {
-          document.getElementById('location-info').textContent = "Tidak dapat mendeteksi lokasi";
-          renderHospitals();
-        });
-      } else {
-        document.getElementById('location-info').textContent = "Geolokasi tidak didukung";
-      }
+
+          // OpenStreetMap reverse geocoding
+          fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${userLat}&lon=${userLng}`)
+            .then(res => res.json())
+            .then(data => {
+              const place = data.display_name || 'Lokasi Anda';
+              info.textContent = place;
+              renderList();
+            })
+            .catch(() => {
+              info.textContent = 'Lokasi Anda';
+              renderList();
+            });
+        },
+        () => {
+          info.textContent = 'Tidak dapat mendeteksi lokasi';
+          renderList();
+        },
+        { enableHighAccuracy: true }
+      );
     }
 
-    function calculateDistance(lat1, lng1, lat2, lng2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLng = (lng2 - lng1) * Math.PI / 180;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLng/2) * Math.sin(dLng/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return (R * c).toFixed(1);
+    function calcDistance(lat1, lng1, lat2, lng2) {
+      const R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
+      const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+      return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))).toFixed(1);
     }
 
-    function renderHospitals() {
+    function renderList() {
+      const q = document.getElementById('search').value.toLowerCase();
       const list = document.getElementById('hospital-list');
-      const search = document.getElementById('search').value.toLowerCase();
       list.innerHTML = '';
+      const sorted = hospitals.map(h => {
+        const dist = (userLat !== null) ? calcDistance(userLat, userLng, h.lat, h.lng) : null;
+        return { ...h, dist };
+      }).filter(h => h.name.toLowerCase().includes(q) || h.address.toLowerCase().includes(q))
+        .sort((a,b) => a.dist === null ? 1 : b.dist === null ? -1 : a.dist - b.dist);
 
-      hospitals
-        .filter(h => h.name.toLowerCase().includes(search) || h.address.toLowerCase().includes(search))
-        .map(h => {
-          const distance = (userLat && userLng) ? `${calculateDistance(userLat, userLng, h.lat, h.lng)} km dari lokasi Anda` : h.address;
-          return `
-            <div class="hospital-card bg-white p-4 rounded shadow">
-              <h2 class="font-semibold text-lg mb-1">${h.name}</h2>
-              <p class="text-sm text-gray-500 mb-1">${h.address}</p>
-              <p class="text-sm text-primary font-medium mb-2">${distance}</p>
-              <div class="text-sm text-yellow-500 mb-3"><i class="ri-star-fill"></i> ${h.rating} (${h.reviews})</div>
-              <div class="flex space-x-2">
-                <a href="tel:${h.phone}" class="flex-1 bg-green-100 text-green-700 text-center py-2 rounded">Telepon</a>
-                <a href="https://wa.me/${h.wa}" class="flex-1 bg-green-600 text-white text-center py-2 rounded">WhatsApp</a>
-              </div>
-            </div>`;
-        }).forEach(html => list.innerHTML += html);
+      sorted.forEach(h => {
+        list.innerHTML += `
+          <div class="hospital-card bg-white p-4 rounded shadow">
+            <h2 class="font-semibold text-lg mb-1">${h.name}</h2>
+            <p class="text-sm text-gray-500 mb-1">${h.address}</p>
+            <p class="text-sm text-primary font-medium mb-2">${h.dist !== null ? h.dist+' km dari lokasi Anda' : ''}</p>
+            <div class="text-sm text-yellow-500 mb-3"><i class="ri-star-fill"></i> ${h.rating} (${h.reviews})</div>
+            <div class="flex space-x-2">
+              <a href="tel:${h.phone}" class="flex-1 bg-green-100 text-green-700 text-center py-2 rounded">Telepon</a>
+              <a href="https://wa.me/${h.wa}" class="flex-1 bg-green-600 text-white text-center py-2 rounded">WhatsApp</a>
+            </div>
+          </div>`;
+      });
     }
 
-    document.getElementById('search').addEventListener('input', renderHospitals);
+    document.getElementById('search').addEventListener('input', renderList);
     detectLocation();
   </script>
 </body>
