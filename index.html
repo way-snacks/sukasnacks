@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -23,8 +24,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
   <style>
     body { font-family: sans-serif; background-color: #f9fafb; }
-    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background-color: rgba(0,0,0,0.8); color: white; padding: 12px 24px; border-radius: 8px; font-size: 14px; opacity: 0; transition: opacity 0.3s ease; z-index: 50; }
-    .toast.show { opacity: 1; }
     .hospital-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
     .contact-btn:hover { transform: translateY(-2px); }
   </style>
@@ -33,14 +32,19 @@
   <div class="container mx-auto px-4 py-8 max-w-6xl">
     <header class="mb-8">
       <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">Daftar Rumah Sakit Surabaya</h1>
-      <div class="relative mb-6">
-        <input type="search" id="search" placeholder="Cari Rumah Sakit..." class="w-full pl-10 pr-10 py-3 rounded-lg shadow border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary">
-        <i class="ri-search-line absolute left-3 top-3.5 text-gray-400"></i>
-        <button onclick="resetSearch()" class="absolute right-3 top-3.5 text-gray-400 hover:text-red-500 hidden" id="clearSearch"><i class="ri-close-line"></i></button>
+      <div class="mb-6 flex items-center space-x-3">
+        <div id="location-status" class="flex items-center text-sm text-gray-600 whitespace-nowrap">
+          <i class="ri-map-pin-user-line mr-1 text-blue-500"></i>
+          <span id="location-text">Mendeteksi lokasi...</span>
+        </div>
+        <div class="relative flex-1">
+          <input type="search" id="search" placeholder="Cari Rumah Sakit..." class="w-full pl-10 pr-10 py-3 rounded-lg shadow border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary">
+          <i class="ri-search-line absolute left-3 top-3.5 text-gray-400"></i>
+          <button onclick="resetSearch()" class="absolute right-3 top-3.5 text-gray-400 hover:text-red-500 hidden" id="clearSearch"><i class="ri-close-line"></i></button>
+        </div>
       </div>
     </header>
-    <div id="hospital-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    </div>
+    <div id="hospital-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     <footer class="text-center mt-12 text-sm text-gray-500">uyhaw©2025</footer>
   </div>
 
@@ -49,8 +53,6 @@
       {
         name: "RSU Dr. Soetomo",
         address: "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Gubeng, Surabaya",
-        rating: 4.7,
-        reviews: 1200,
         phone: "0315501078",
         wa: "628123456789",
         lat: -7.2675,
@@ -59,8 +61,6 @@
       {
         name: "RS Islam Jemursari",
         address: "Jl. Jemursari No.51-57, Surabaya",
-        rating: 4.4,
-        reviews: 930,
         phone: "0318410290",
         lat: -7.3196,
         lng: 112.7475
@@ -68,8 +68,6 @@
       {
         name: "RSUD Bhakti Dharma Husada",
         address: "Jl. Raya Kendung No.115-117, Sememi, Benowo, Surabaya",
-        rating: 4.3,
-        reviews: 480,
         phone: "0317402266",
         wa: "",
         lat: -7.2257,
@@ -78,6 +76,7 @@
     ];
 
     let userLocation = null;
+    const locationText = document.getElementById('location-text');
 
     function resetSearch() {
       document.getElementById('search').value = '';
@@ -123,11 +122,6 @@
                   <span>${distanceText}</span>
                 </div>
               </div>
-              <div class="flex items-center bg-green-50 px-2 py-1 rounded-full">
-                <i class="ri-star-fill text-yellow-500 mr-1"></i>
-                <span class="text-sm font-medium">${h.rating}</span>
-                <span class="text-xs text-gray-500 ml-1">(${h.reviews})</span>
-              </div>
             </div>
             <p class="text-gray-600 text-sm mb-4"><i class="ri-map-pin-line text-sm text-gray-500 mr-2"></i>${h.address}</p>
             <div class="flex space-x-3">
@@ -142,13 +136,24 @@
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
-        userLocation = {
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude
-        };
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        userLocation = { lat, lng };
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+          .then(res => res.json())
+          .then(data => {
+            locationText.textContent = data.display_name || 'Lokasi ditemukan';
+          })
+          .catch(() => {
+            locationText.textContent = 'Lokasi ditemukan';
+          });
         renderHospitals();
-      }, () => renderHospitals());
+      }, () => {
+        locationText.textContent = 'Aktifkan Lokasi Device Kamu';
+        renderHospitals();
+      });
     } else {
+      locationText.textContent = 'Geolokasi tidak didukung';
       renderHospitals();
     }
   </script>
