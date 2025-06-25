@@ -50,29 +50,566 @@
 
   <script>
     const hospitals = [
-      {
-        name: "RSU Dr. Soetomo",
-        address: "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Gubeng, Surabaya",
-        phone: "0315501078",
-        wa: "628123456789",
-        lat: -7.2675,
-        lng: 112.7562
-      },
-      {
-        name: "RS Islam Jemursari",
-        address: "Jl. Jemursari No.51-57, Surabaya",
-        phone: "0318410290",
-        lat: -7.3196,
-        lng: 112.7475
-      },
-      {
-        name: "RSUD Bhakti Dharma Husada",
-        address: "Jl. Raya Kendung No.115-117, Sememi, Benowo, Surabaya",
-        phone: "0317402266",
-        wa: "",
-        lat: -7.2257,
-        lng: 112.6396
-      }
+    {
+  name: "RSUD Dr. Soetomo",
+  address: "Jl. Mayjen Prof. Dr. Moestopo No. 6–8, Airlangga, Gubeng, Surabaya",
+  phone: "031-5501078",
+  wa: "6281216700101",
+  lat: -7.2675,
+  lng: 112.7562
+},
+{
+  name: "RSUD dr. Mohamad Soewandhie",
+  address: "Jl. Tambak Rejo No. 45–47, Tambakrejo, Simokerto, Surabaya",
+  phone: "031-3717141",
+  wa: "",
+  lat: -7.245712,
+  lng: 112.754721
+},
+{
+  name: "RSUD Bhakti Dharma Husada",
+  address: "Jl. Kendung No. 115–117, Sememi, Benowo, Surabaya",
+  phone: "031-8295922",
+  wa: "",
+  lat: -7.2257,
+  lng: 112.6396
+},
+{
+  name: "RSU Haji Surabaya",
+  address: "Jl. Manyar Kertoadi, Klampis Ngasem, Sukolilo, Surabaya",
+  phone: "031-5947760",
+  wa: "",
+  lat: -7.301557,
+  lng: 112.775339
+},
+{
+  name: "RS UBAYA",
+  address: "Jl. Panjang Jiwo Permai No. 89, Surabaya",
+  phone: "031-99211500",
+  wa: "6281234564030",
+  lat: -7.31905,
+  lng: 112.76275
+},
+{
+  name: "RS Royal Surabaya",
+  address: "Jl. Rungkut Industri I/1, Surabaya",
+  phone: "031-8476111",
+  wa: "62816565767",
+  lat: -7.31979,
+  lng: 112.77222
+},
+{
+  name: "Mayapada Hospital Surabaya",
+  address: "Jl. Mayjend Sungkono No. 16–20, Pakis, Sawahan, Surabaya",
+  phone: "031-99217777",
+  wa: "6285799217777",
+  lat: -7.290157,
+  lng: 112.715678
+},
+{
+  name: "RS Premier Surabaya",
+  address: "Jl. Nginden Intan Barat Blok B, Sukolilo, Surabaya",
+  phone: "031-5993211",
+  wa: "6281222309911",
+  lat: -7.30204,
+  lng: 112.77146
+},
+{
+  name: "RS Siloam Surabaya",
+  address: "Jl. Raya Gubeng No. 70, Gubeng, Surabaya",
+  phone: "031-5031821",
+  wa: "",
+  lat: -7.28125,
+  lng: 112.74866
+},
+{
+  name: "RS Mitra Keluarga Satelit",
+  address: "Jl. Satelit Indah II, Darmo Satelit, Surabaya",
+  phone: "031-7345111",
+  wa: "",
+  lat: -7.27883,
+  lng: 112.69587
+}
+{
+  name: "RS William Booth",
+  address: "Jl. Diponegoro No. 34, Surabaya",
+  phone: "031-5678917",
+  wa: "",
+  lat: -7.28151,
+  lng: 112.73539
+},
+{
+  name: "RS Islam Jemursari",
+  address: "Jl. Jemursari No. 51-57, Surabaya",
+  phone: "031-8471877",
+  wa: "",
+  lat: -7.31950,
+  lng: 112.74748
+},
+{
+  name: "RS Griya Husada",
+  address: "Jl. Bubutan No. 93, Surabaya",
+  phone: "031-5340828",
+  wa: "",
+  lat: -7.24837,
+  lng: 112.73119
+},
+{
+  name: "RS Gotong Royong",
+  address: "Jl. Semampir Indah No. 97, Surabaya",
+  phone: "031-5939691",
+  wa: "",
+  lat: -7.22276,
+  lng: 112.74167
+},
+{
+  name: "RS Denkesyah TNI AD",
+  address: "Jl. Kesatrian No. 17, Surabaya",
+  phone: "031-5670656",
+  wa: "",
+  lat: -7.26697,
+  lng: 112.73519
+},
+{
+  name: "RS TNI AU Soemitro",
+  address: "Jl. Serayu No. 17, Surabaya",
+  phone: "031-576662",
+  wa: "",
+  lat: -7.27783,
+  lng: 112.75576
+},
+{
+  name: "RS Pura Raharja",
+  address: "Jl. Semolowaru No. 84, Surabaya",
+  phone: "031-5934092",
+  wa: "",
+  lat: -7.29083,
+  lng: 112.79132
+},
+{
+  name: "RS Katolik St. Vincentius a Paulo (RKZ)",
+  address: "Jl. Diponegoro No. 51, Surabaya",
+  phone: "031-5677562",
+  wa: "",
+  lat: -7.28107,
+  lng: 112.73574
+},
+{
+  name: "RS Jiwa Menur",
+  address: "Jl. Menur No. 120, Surabaya",
+  phone: "031-5022436",
+  wa: "",
+  lat: -7.28671,
+  lng: 112.76637
+},
+{
+  name: "RS PHC Surabaya",
+  address: "Jl. Perak Timur No. 480, Surabaya",
+  phone: "031-3294801",
+  wa: "",
+  lat: -7.22065,
+  lng: 112.74788
+}
+{
+  name: "RS Petrokimia Gresik (Cabang Surabaya)",
+  address: "Jl. Arif Rahman Hakim No. 7, Surabaya",
+  phone: "031-5910881",
+  wa: "",
+  lat: -7.28958,
+  lng: 112.78011
+},
+{
+  name: "RSIA Putri",
+  address: "Jl. Patua No. 3, Surabaya",
+  phone: "031-5452244",
+  wa: "",
+  lat: -7.25838,
+  lng: 112.74378
+},
+{
+  name: "RSIA Kendangsari",
+  address: "Jl. Kendangsari No. 38, Surabaya",
+  phone: "031-8476000",
+  wa: "",
+  lat: -7.32983,
+  lng: 112.75262
+},
+{
+  name: "RSIA Graha Medika",
+  address: "Jl. Manyar Kartika No. 36, Surabaya",
+  phone: "031-5032585",
+  wa: "",
+  lat: -7.28519,
+  lng: 112.78142
+},
+{
+  name: "RSIA Cempaka Putih",
+  address: "Jl. Tidar No. 89, Surabaya",
+  phone: "031-5345413",
+  wa: "",
+  lat: -7.26258,
+  lng: 112.73539
+},
+{
+  name: "RSIA Lombok Dua Dua",
+  address: "Jl. Lombok No. 22, Surabaya",
+  phone: "031-5022044",
+  wa: "",
+  lat: -7.26486,
+  lng: 112.74539
+},
+{
+  name: "RSIA Pusura",
+  address: "Jl. Genteng Kali No. 97, Surabaya",
+  phone: "031-5341401",
+  wa: "",
+  lat: -7.26429,
+  lng: 112.73963
+},
+{
+  name: "RSIA Arvita Bunda",
+  address: "Jl. Raya Mulyosari No. 338, Surabaya",
+  phone: "031-5991111",
+  wa: "",
+  lat: -7.26791,
+  lng: 112.80155
+},
+{
+  name: "RS Onkologi Surabaya",
+  address: "Jl. Arif Rahman Hakim No. 95, Surabaya",
+  phone: "031-5936666",
+  wa: "",
+  lat: -7.28547,
+  lng: 112.78853
+},
+{
+  name: "National Hospital Surabaya",
+  address: "Jl. Boulevard Famili Selatan, Citraland, Surabaya",
+  phone: "031-2975777",
+  wa: "",
+  lat: -7.27191,
+  lng: 112.64792
+}
+{
+  name: "RS Siti Khadijah",
+  address: "Jl. Kalibokor Selatan No. 58, Surabaya",
+  phone: "031-5021660",
+  wa: "",
+  lat: -7.28533,
+  lng: 112.76547
+},
+{
+  name: "RS Ananda",
+  address: "Jl. Raya Rungkut Menanggal No. 41, Surabaya",
+  phone: "031-8432144",
+  wa: "",
+  lat: -7.33484,
+  lng: 112.74829
+},
+{
+  name: "RS Islam Surabaya A. Yani",
+  address: "Jl. Ahmad Yani No. 2-4, Surabaya",
+  phone: "031-8284506",
+  wa: "6282133222246",
+  lat: -7.32128,
+  lng: 112.73471
+},
+{
+  name: "RS Bedah Surabaya",
+  address: "Jl. Manyar Kartika No. 34, Surabaya",
+  phone: "031-5930680",
+  wa: "",
+  lat: -7.28469,
+  lng: 112.78138
+},
+{
+  name: "RSIA Kendangsari Merr",
+  address: "Jl. Dr. Ir. H. Soekarno No. 28, Surabaya",
+  phone: "031-8703577",
+  wa: "",
+  lat: -7.31999,
+  lng: 112.79021
+},
+{
+  name: "RSIA Nur Ummi",
+  address: "Jl. Simorejo Sari No. 13 A, Surabaya",
+  phone: "031-5314268",
+  wa: "",
+  lat: -7.23625,
+  lng: 112.69011
+},
+{
+  name: "RSIA Sayang Ibu",
+  address: "Jl. Raya Kebraon No. 2A, Surabaya",
+  phone: "031-7668666",
+  wa: "",
+  lat: -7.32348,
+  lng: 112.68463
+},
+{
+  name: "RSIA Citra Medika",
+  address: "Jl. Raya Mulyosari No. 342, Surabaya",
+  phone: "031-5948850",
+  wa: "",
+  lat: -7.26741,
+  lng: 112.80202
+},
+{
+  name: "RSIA Putri Surabaya",
+  address: "Jl. Patua No. 3, Surabaya",
+  phone: "031-5452244",
+  wa: "",
+  lat: -7.25838,
+  lng: 112.74378
+},
+{
+  name: "RSIA Siti Hajar",
+  address: "Jl. Raya Menur No. 100, Surabaya",
+  phone: "031-5025719",
+  wa: "",
+  lat: -7.28586,
+  lng: 112.76361
+}
+{
+  name: "RS Kasih Ibu",
+  address: "Jl. Kalirungkut No. 27, Surabaya",
+  phone: "031-8710355",
+  wa: "",
+  lat: -7.33218,
+  lng: 112.78764
+},
+{
+  name: "RS Onkologi Surabaya",
+  address: "Jl. Arif Rahman Hakim No. 95, Surabaya",
+  phone: "031-5936666",
+  wa: "",
+  lat: -7.28547,
+  lng: 112.78853
+},
+{
+  name: "RSIA Siti Aisyah",
+  address: "Jl. Bulak Banteng Wetan No. 11, Surabaya",
+  phone: "031-51507350",
+  wa: "",
+  lat: -7.22067,
+  lng: 112.79774
+},
+{
+  name: "RS Bersalin Nyai Ageng Pinatih",
+  address: "Jl. Kedung Anyar No. 105, Surabaya",
+  phone: "031-5344356",
+  wa: "",
+  lat: -7.26279,
+  lng: 112.71723
+},
+{
+  name: "RS Bunda Surabaya",
+  address: "Jl. Kandangan No. 23-24, Surabaya",
+  phone: "031-7440077",
+  wa: "",
+  lat: -7.22907,
+  lng: 112.63551
+},
+{
+  name: "RSIA Pura Raharja",
+  address: "Jl. Semolowaru No. 84, Surabaya",
+  phone: "031-5934092",
+  wa: "",
+  lat: -7.29083,
+  lng: 112.79132
+},
+{
+  name: "RSIA Arvita Bunda",
+  address: "Jl. Raya Mulyosari No. 338, Surabaya",
+  phone: "031-5991111",
+  wa: "",
+  lat: -7.26791,
+  lng: 112.80155
+},
+{
+  name: "RSIA Queen Surabaya",
+  address: "Jl. Rungkut Mapan Barat No. D-8, Surabaya",
+  phone: "031-8705555",
+  wa: "",
+  lat: -7.32826,
+  lng: 112.78085
+},
+{
+  name: "RSIA Lombok Dua Dua",
+  address: "Jl. Lombok No. 22, Surabaya",
+  phone: "031-5022044",
+  wa: "",
+  lat: -7.26486,
+  lng: 112.74539
+},
+{
+  name: "RSIA Kendangsari",
+  address: "Jl. Kendangsari No. 38, Surabaya",
+  phone: "031-8476000",
+  wa: "",
+  lat: -7.32983,
+  lng: 112.75262
+}
+{
+  name: "RS Al Irsyad Surabaya",
+  address: "Jl. KH. Mansyur No. 210-212, Surabaya",
+  phone: "031-5311586",
+  wa: "",
+  lat: -7.24873,
+  lng: 112.72562
+},
+{
+  name: "RSIA Putri Surabaya (Cabang)",
+  address: "Jl. Patua No. 3, Surabaya",
+  phone: "031-5452244",
+  wa: "",
+  lat: -7.25838,
+  lng: 112.74378
+},
+{
+  name: "RSIA Ibu dan Anak Melati Husada",
+  address: "Jl. Tidar No. 124, Surabaya",
+  phone: "031-5340546",
+  wa: "",
+  lat: -7.26232,
+  lng: 112.73510
+},
+{
+  name: "RSIA Anugerah Medika",
+  address: "Jl. Barata Jaya XIX No. 25, Surabaya",
+  phone: "031-5042407",
+  wa: "",
+  lat: -7.30528,
+  lng: 112.75291
+},
+{
+  name: "RSIA Putri (Cabang Patua)",
+  address: "Jl. Patua No. 3, Surabaya",
+  phone: "031-5452244",
+  wa: "",
+  lat: -7.25838,
+  lng: 112.74378
+},
+{
+  name: "RSIA Mitra Keluarga Kenjeran",
+  address: "Jl. Kenjeran No. 506, Surabaya",
+  phone: "031-3811222",
+  wa: "",
+  lat: -7.25152,
+  lng: 112.77713
+},
+{
+  name: "RSIA Mitra Keluarga Darmo",
+  address: "Jl. Raya Darmo No. 90, Surabaya",
+  phone: "031-5678999",
+  wa: "",
+  lat: -7.28112,
+  lng: 112.73448
+},
+{
+  name: "RSIA Kartika Husada",
+  address: "Jl. Raya Sememi No. 42, Surabaya",
+  phone: "031-7405454",
+  wa: "",
+  lat: -7.21847,
+  lng: 112.67067
+},
+{
+  name: "RSIA Medika Utama",
+  address: "Jl. Raya Gunungsari No. 35, Surabaya",
+  phone: "031-5668666",
+  wa: "",
+  lat: -7.30099,
+  lng: 112.70938
+},
+{
+  name: "RSIA Siti Hajar (Cabang Menur)",
+  address: "Jl. Raya Menur No. 100, Surabaya",
+  phone: "031-5025719",
+  wa: "",
+  lat: -7.28586,
+  lng: 112.76361
+},
+{
+  name: "RSIA Kendangsari Merr (Cabang)",
+  address: "Jl. Dr. Ir. H. Soekarno No. 28, Surabaya",
+  phone: "031-8703577",
+  wa: "",
+  lat: -7.31999,
+  lng: 112.79021
+},
+{
+  name: "RSIA Queen Surabaya (Cabang)",
+  address: "Jl. Rungkut Mapan Barat No. D-8, Surabaya",
+  phone: "031-8705555",
+  wa: "",
+  lat: -7.32826,
+  lng: 112.78085
+},
+{
+  name: "RSIA Arvita Bunda (Cabang)",
+  address: "Jl. Raya Mulyosari No. 338, Surabaya",
+  phone: "031-5991111",
+  wa: "",
+  lat: -7.26791,
+  lng: 112.80155
+},
+{
+  name: "RSIA Putri Surabaya (Rekap)",
+  address: "Jl. Patua No. 3, Surabaya",
+  phone: "031-5452244",
+  wa: "",
+  lat: -7.25838,
+  lng: 112.74378
+},
+{
+  name: "RSIA Kendangsari (Rekap)",
+  address: "Jl. Kendangsari No. 38, Surabaya",
+  phone: "031-8476000",
+  wa: "",
+  lat: -7.32983,
+  lng: 112.75262
+},
+{
+  name: "RSIA Arvita Bunda (Rekap)",
+  address: "Jl. Raya Mulyosari No. 338, Surabaya",
+  phone: "031-5991111",
+  wa: "",
+  lat: -7.26791,
+  lng: 112.80155
+},
+{
+  name: "RSIA Queen Surabaya (Rekap)",
+  address: "Jl. Rungkut Mapan Barat No. D-8, Surabaya",
+  phone: "031-8705555",
+  wa: "",
+  lat: -7.32826,
+  lng: 112.78085
+},
+{
+  name: "RSIA Siti Hajar (Rekap)",
+  address: "Jl. Raya Menur No. 100, Surabaya",
+  phone: "031-5025719",
+  wa: "",
+  lat: -7.28586,
+  lng: 112.76361
+},
+{
+  name: "RSIA Citra Medika (Rekap)",
+  address: "Jl. Raya Mulyosari No. 342, Surabaya",
+  phone: "031-5948850",
+  wa: "",
+  lat: -7.26741,
+  lng: 112.80202
+},
+{
+  name: "RSIA Pura Raharja (Rekap)",
+  address: "Jl. Semolowaru No. 84, Surabaya",
+  phone: "031-5934092",
+  wa: "",
+  lat: -7.29083,
+  lng: 112.79132
+}
     ];
 
     let userLocation = null;
@@ -105,13 +642,26 @@
     function renderHospitals(filter = '') {
       const container = document.getElementById('hospital-container');
       container.innerHTML = '';
-      hospitals.forEach(h => {
-        if (filter && !h.name.toLowerCase().includes(filter)) return;
+
+      let filteredHospitals = hospitals.filter(h => 
+        !filter || h.name.toLowerCase().includes(filter)
+      );
+
+      if (userLocation) {
+        filteredHospitals.sort((a, b) => {
+          const distA = getDistance(userLocation.lat, userLocation.lng, a.lat, a.lng);
+          const distB = getDistance(userLocation.lat, userLocation.lng, b.lat, b.lng);
+          return distA - distB;
+        });
+      }
+
+      filteredHospitals.forEach(h => {
         let distanceText = 'Jarak tidak tersedia';
         if (userLocation) {
           const dist = getDistance(userLocation.lat, userLocation.lng, h.lat, h.lng).toFixed(2);
           distanceText = `${dist} km dari lokasi Anda`;
         }
+
         container.innerHTML += `
           <div class="hospital-card bg-white p-6 rounded-lg shadow transition">
             <div class="flex justify-between items-start mb-4">
@@ -121,6 +671,11 @@
                   <i class="ri-map-pin-line text-base mr-1 text-primary"></i>
                   <span>${distanceText}</span>
                 </div>
+              </div>
+              <div class="flex items-center bg-green-50 px-2 py-1 rounded-full">
+                <i class="ri-star-fill text-yellow-500 mr-1"></i>
+                <span class="text-sm font-medium">4.5</span>
+                <span class="text-xs text-gray-500 ml-1">(100+)</span>
               </div>
             </div>
             <p class="text-gray-600 text-sm mb-4"><i class="ri-map-pin-line text-sm text-gray-500 mr-2"></i>${h.address}</p>
