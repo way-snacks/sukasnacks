@@ -50,7 +50,8 @@
 
   <script>
     const hospitals = [
-    {
+     
+       {
   name: "RSUD Dr. Soetomo",
   address: "Jl. Mayjen Prof. Dr. Moestopo No. 6–8, Airlangga, Gubeng, Surabaya",
   phone: "031-5501078",
@@ -643,7 +644,7 @@
       const container = document.getElementById('hospital-container');
       container.innerHTML = '';
 
-      let filteredHospitals = hospitals.filter(h => 
+      let filteredHospitals = hospitals.filter(h =>
         !filter || h.name.toLowerCase().includes(filter)
       );
 
@@ -690,23 +691,30 @@
     }
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
-        userLocation = { lat, lng };
-        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
-          .then(res => res.json())
-          .then(data => {
-            locationText.textContent = data.display_name || 'Lokasi ditemukan';
-          })
-          .catch(() => {
-            locationText.textContent = 'Lokasi ditemukan';
-          });
-        renderHospitals();
-      }, () => {
-        locationText.textContent = 'Aktifkan Lokasi Device Kamu';
-        renderHospitals();
-      });
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          console.log("Lokasi ditemukan:", lat, lng);
+          userLocation = { lat, lng };
+          fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+            .then(res => res.json())
+            .then(data => {
+              locationText.textContent = data.display_name || 'Lokasi ditemukan';
+            })
+            .catch((err) => {
+              console.error("Gagal ambil nama lokasi:", err);
+              locationText.textContent = 'Lokasi ditemukan';
+            });
+          renderHospitals();
+        },
+        (err) => {
+          console.error("Gagal deteksi lokasi:", err);
+          locationText.textContent = 'Aktifkan Lokasi Device Kamu';
+          renderHospitals();
+        },
+        { timeout: 10000 }
+      );
     } else {
       locationText.textContent = 'Geolokasi tidak didukung';
       renderHospitals();
