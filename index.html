@@ -645,8 +645,10 @@
       container.innerHTML = '';
 
       let filteredHospitals = hospitals.filter(h =>
-        !filter || h.name.toLowerCase().includes(filter)
-      );
+        !filter ||
+        h.name.toLowerCase().includes(filter) ||
+        h.address.toLowerCase().includes(filter)
+                                              );
 
       if (userLocation) {
         filteredHospitals.sort((a, b) => {
