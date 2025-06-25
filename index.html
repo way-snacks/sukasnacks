@@ -4,112 +4,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Daftar Rumah Sakit Terdekat - Surabaya</title>
+  <title>Daftar Rumah Sakit Surabaya</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" rel="stylesheet" />
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f9fafb; }
-    .hospital-card { transition: transform 0.2s, box-shadow 0.2s; }
-    .hospital-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+    body {{ font-family: sans-serif; background-color: #f9fafb; }}
+    .hospital-card:hover {{ transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }}
   </style>
 </head>
 <body class="min-h-screen px-4 py-6 max-w-6xl mx-auto">
-  <h1 class="text-2xl font-bold text-center mb-4">Daftar Rumah Sakit Terdekat - Surabaya</h1>
-
-  <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
-    <div class="flex items-center gap-2 text-gray-700">
-      <i class="ri-map-pin-line text-lg text-primary"></i>
-      <span id="location-info" class="text-sm">Mendeteksi lokasi...</span>
-      <button onclick="detectLocation()" class="text-primary underline text-sm ml-2">Refresh</button>
-    </div>
-    <input type="text" id="search" placeholder="Cari rumah sakit..." class="w-full md:w-1/3 px-4 py-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"/>
+  <h1 class="text-2xl font-bold text-center mb-4">Daftar Rumah Sakit di Surabaya</h1>
+  <div class="flex items-center gap-2 text-gray-700 mb-4">
+    <i class="ri-map-pin-line text-lg text-primary"></i>
+    <span id="location-info" class="text-sm">Mendeteksi lokasi…</span>
+    <button onclick="detectLocation()" class="text-primary underline text-sm ml-2">Refresh</button>
   </div>
-
+  <input type="text" id="search" placeholder="Cari nama/alamat RS…" class="w-full mb-6 px-4 py-2 rounded border border-gray-300" />
   <div id="hospital-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
   <script>
     const hospitals = [
-      { name: "RSUD Dr. Soetomo", address: "Tambaksari", lat: -7.2651, lng: 112.7552, rating: 4.7, reviews: 1050, phone: "0315501078", wa: "6281234567890" },
-      { name: "RS Premier Surabaya", address: "Nginden Jangkungan", lat: -7.3006, lng: 112.7631, rating: 4.6, reviews: 890, phone: "0315937888", wa: "6281298765432" },
-      { name: "RS William Booth", address: "Sawahan", lat: -7.2619, lng: 112.7261, rating: 4.5, reviews: 410, phone: "0315345005", wa: "6282134567890" },
-      { name: "RSAL Dr. Ramelan", address: "Embong Kaliasin", lat: -7.2706, lng: 112.7461, rating: 4.4, reviews: 500, phone: "0313522244", wa: "6283134567890" },
-      { name: "RS Bhayangkara HS Samsoeri", address: "Gayungan", lat: -7.3231, lng: 112.7376, rating: 4.3, reviews: 320, phone: "0318283600", wa: "6284134567890" },
-      { name: "RS Islam Jemursari", address: "Tenggilis Mejoyo", lat: -7.3204, lng: 112.7529, rating: 4.2, reviews: 450, phone: "0318410298", wa: "6285134567890" },
-      { name: "RS Islam A. Yani", address: "Gayungan", lat: -7.3200, lng: 112.7410, rating: 4.4, reviews: 370, phone: "0318284810", wa: "6286134567890" },
-      { name: "RS Gotong Royong", address: "Simokerto", lat: -7.2429, lng: 112.7586, rating: 4.1, reviews: 270, phone: "0313719971", wa: "6287134567890" },
-      { name: "RS Manyar Medical Centre", address: "Mulyorejo", lat: -7.2733, lng: 112.7910, rating: 4.0, reviews: 190, phone: "0315937878", wa: "6288134567890" }
+      {name: "RSUD Dr. Soetomo", address: "Jl. Mayjen Prof. Dr. Moestopo No. 6–8, Airlangga, Gubeng, Surabaya", phone: "031-5501078", wa: "6281216700101"},
+{name: "RSUD dr. Mohamad Soewandhie", address: "Jl. Tambak Rejo No. 45–47, Tambakrejo, Simokerto, Surabaya", phone: "031-3717141", wa: ""},
+{name: "RSUD Bhakti Dharma Husada", address: "Jl. Kendung No. 115–117, Sememi, Benowo, Surabaya", phone: "031-8295922", wa: ""},
+{name: "RSU Haji Surabaya", address: "Jl. Manyar Kertoadi, Klampis Ngasem, Sukolilo, Surabaya", phone: "031-5947760", wa: ""},
+{name: "RS UBAYA", address: "Jl. Panjang Jiwo Permai No. 89, Surabaya", phone: "031-99211500", wa: "6281234564030"},
+{name: "RS Royal Surabaya", address: "Jl. Rungkut Industri I/1, Surabaya", phone: "031-8476111", wa: "62816565767"},
+{name: "Mayapada Hospital Surabaya", address: "Jl. Mayjend Sungkono No. 16–20, Pakis, Sawahan, Surabaya", phone: "031-99217777", wa: "6285799217777"},
+{name: "RS Premier Surabaya", address: "Jl. Nginden Intan Barat Blok B, Sukolilo, Surabaya", phone: "031-5993211", wa: "6281222309911"},
+{name: "RS Siloam Surabaya", address: "Jl. Raya Gubeng No. 70, Gubeng, Surabaya", phone: "031-5031821", wa: ""},
+{name: "RS Mitra Keluarga Satelit", address: "Jl. Satelit Indah II, Darmo Satelit, Surabaya", phone: "031-7345111", wa: ""},
+{name: "RS William Booth", address: "Jl. Diponegoro No. 34, Surabaya", phone: "031-5678917", wa: ""},
+{name: "RS Islam Jemursari", address: "Jl. Jemursari No. 51-57, Surabaya", phone: "031-8471877", wa: ""},
+{name: "RS Griya Husada", address: "Jl. Bubutan No. 93, Surabaya", phone: "031-5340828", wa: ""},
+{name: "RS Gotong Royong", address: "Jl. Semampir Indah No. 97, Surabaya", phone: "031-5939691", wa: ""},
+{name: "RS Denkesyah TNI AD", address: "Jl. Kesatrian No. 17, Surabaya", phone: "031-5670656", wa: ""},
+{name: "RS TNI AU Soemitro", address: "Jl. Serayu No. 17, Surabaya", phone: "031-576662", wa: ""},
+{name: "RS Pura Raharja", address: "Jl. Semolowaru No. 84, Surabaya", phone: "031-5934092", wa: ""},
+{name: "RS Katolik St. Vincentius a Paulo (RKZ)", address: "Jl. Diponegoro No. 51, Surabaya", phone: "031-5677562", wa: ""},
+{name: "RS Jiwa Menur", address: "Jl. Menur No. 120, Surabaya", phone: "031-5022436", wa: ""},
+{name: "RS PHC Surabaya", address: "Jl. Perak Timur No. 480, Surabaya", phone: "031-3294801", wa: ""},
+{name: "RS Petrokimia Gresik (Cabang Surabaya)", address: "Jl. Arif Rahman Hakim No. 7, Surabaya", phone: "031-5910881", wa: ""},
+{name: "RSIA Putri", address: "Jl. Patua No. 3, Surabaya", phone: "031-5452244", wa: ""},
+{name: "RSIA Kendangsari", address: "Jl. Kendangsari No. 38, Surabaya", phone: "031-8476000", wa: ""},
+{name: "RSIA Graha Medika", address: "Jl. Manyar Kartika No. 36, Surabaya", phone: "031-5032585", wa: ""},
+{name: "RSIA Cempaka Putih", address: "Jl. Tidar No. 89, Surabaya", phone: "031-5345413", wa: ""},
+{name: "RSIA Lombok Dua Dua", address: "Jl. Lombok No. 22, Surabaya", phone: "031-5022044", wa: ""},
+{name: "RSIA Pusura", address: "Jl. Genteng Kali No. 97, Surabaya", phone: "031-5341401", wa: ""},
+{name: "RSIA Arvita Bunda", address: "Jl. Raya Mulyosari No. 338, Surabaya", phone: "031-5991111", wa: ""},
+{name: "RS Onkologi Surabaya", address: "Jl. Arif Rahman Hakim No. 95, Surabaya", phone: "031-5936666", wa: ""},
+{name: "National Hospital Surabaya", address: "Jl. Boulevard Famili Selatan, Citraland, Surabaya", phone: "031-2975777", wa: ""},
+{name: "RS Siti Khadijah", address: "Jl. Kalibokor Selatan No. 58, Surabaya", phone: "031-5021660", wa: ""},
+{name: "RS Ananda", address: "Jl. Raya Rungkut Menanggal No. 41, Surabaya", phone: "031-8432144", wa: ""},
+{name: "RS Islam Surabaya A. Yani", address: "Jl. Ahmad Yani No. 2-4, Surabaya", phone: "031-8284506", wa: "6282133222246"},
+{name: "RS Bedah Surabaya", address: "Jl. Manyar Kartika No. 34, Surabaya", phone: "031-5930680", wa: ""},
+{name: "RSIA Kendangsari Merr", address: "Jl. Dr. Ir. H. Soekarno No. 28, Surabaya", phone: "031-8703577", wa: ""},
+{name: "RSIA Nur Ummi", address: "Jl. Simorejo Sari No. 13 A, Surabaya", phone: "031-5314268", wa: ""},
+{name: "RSIA Sayang Ibu", address: "Jl. Raya Kebraon No. 2A, Surabaya", phone: "031-7668666", wa: ""},
+{name: "RSIA Citra Medika", address: "Jl. Raya Mulyosari No. 342, Surabaya", phone: "031-5948850", wa: ""},
+{name: "RSIA Putri Surabaya", address: "Jl. Patua No. 3, Surabaya", phone: "031-5452244", wa: ""},
+{name: "RSIA Siti Hajar", address: "Jl. Raya Menur No. 100, Surabaya", phone: "031-5025719", wa: ""},
+{name: "RS Kasih Ibu", address: "Jl. Kalirungkut No. 27, Surabaya", phone: "031-8710355", wa: ""},
+{name: "RS Onkologi Surabaya", address: "Jl. Arif Rahman Hakim No. 95, Surabaya", phone: "031-5936666", wa: ""},
+{name: "RSIA Siti Aisyah", address: "Jl. Bulak Banteng Wetan No. 11, Surabaya", phone: "031-51507350", wa: ""},
+{name: "RS Bersalin Nyai Ageng Pinatih", address: "Jl. Kedung Anyar No. 105, Surabaya", phone: "031-5344356", wa: ""},
+{name: "RS Bunda Surabaya", address: "Jl. Kandangan No. 23-24, Surabaya", phone: "031-7440077", wa: ""},
+{name: "RSIA Pura Raharja", address: "Jl. Semolowaru No. 84, Surabaya", phone: "031-5934092", wa: ""},
+{name: "RSIA Arvita Bunda", address: "Jl. Raya Mulyosari No. 338, Surabaya", phone: "031-5991111", wa: ""},
+{name: "RSIA Queen Surabaya", address: "Jl. Rungkut Mapan Barat No. D-8, Surabaya", phone: "031-8705555", wa: ""},
+{name: "RSIA Lombok Dua Dua", address: "Jl. Lombok No. 22, Surabaya", phone: "031-5022044", wa: ""},
+{name: "RSIA Kendangsari", address: "Jl. Kendangsari No. 38, Surabaya", phone: "031-8476000", wa: ""}
     ];
 
-    let userLat = null, userLng = null;
-
-    function detectLocation() {
+    function detectLocation() {{
       const info = document.getElementById('location-info');
-      info.textContent = 'Mendeteksi lokasi...';
-      if (!navigator.geolocation) {
+      if (!navigator.geolocation) {{
         info.textContent = 'Geolokasi tidak didukung';
-        renderList();
         return;
-      }
+      }}
       navigator.geolocation.getCurrentPosition(
-        pos => {
-          userLat = pos.coords.latitude;
-          userLng = pos.coords.longitude;
-
-          // OpenStreetMap reverse geocoding
-          fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${userLat}&lon=${userLng}`)
+        pos => {{
+          fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${{pos.coords.latitude}}&lon=${{pos.coords.longitude}}`)
             .then(res => res.json())
-            .then(data => {
-              const place = data.display_name || 'Lokasi Anda';
-              info.textContent = place;
-              renderList();
-            })
-            .catch(() => {
-              info.textContent = 'Lokasi Anda';
-              renderList();
-            });
-        },
-        () => {
-          info.textContent = 'Tidak dapat mendeteksi lokasi';
-          renderList();
-        },
-        { enableHighAccuracy: true }
+            .then(data => {{
+              info.textContent = data.display_name || 'Lokasi Anda';
+            }})
+            .catch(() => info.textContent = 'Lokasi Anda');
+        }},
+        () => info.textContent = 'Tidak dapat mendeteksi lokasi',
+        {{ enableHighAccuracy: true }}
       );
-    }
+    }}
 
-    function calcDistance(lat1, lng1, lat2, lng2) {
-      const R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
-      const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
-      return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))).toFixed(1);
-    }
-
-    function renderList() {
+    function renderList() {{
       const q = document.getElementById('search').value.toLowerCase();
       const list = document.getElementById('hospital-list');
       list.innerHTML = '';
-      const sorted = hospitals.map(h => {
-        const dist = (userLat !== null) ? calcDistance(userLat, userLng, h.lat, h.lng) : null;
-        return { ...h, dist };
-      }).filter(h => h.name.toLowerCase().includes(q) || h.address.toLowerCase().includes(q))
-        .sort((a,b) => a.dist === null ? 1 : b.dist === null ? -1 : a.dist - b.dist);
-
-      sorted.forEach(h => {
-        list.innerHTML += `
-          <div class="hospital-card bg-white p-4 rounded shadow">
-            <h2 class="font-semibold text-lg mb-1">${h.name}</h2>
-            <p class="text-sm text-gray-500 mb-1">${h.address}</p>
-            <p class="text-sm text-primary font-medium mb-2">${h.dist !== null ? h.dist+' km dari lokasi Anda' : ''}</p>
-            <div class="text-sm text-yellow-500 mb-3"><i class="ri-star-fill"></i> ${h.rating} (${h.reviews})</div>
-            <div class="flex space-x-2">
-              <a href="tel:${h.phone}" class="flex-1 bg-green-100 text-green-700 text-center py-2 rounded">Telepon</a>
-              <a href="https://wa.me/${h.wa}" class="flex-1 bg-green-600 text-white text-center py-2 rounded">WhatsApp</a>
+      hospitals.filter(h => h.name.toLowerCase().includes(q) || h.address.toLowerCase().includes(q))
+        .forEach(h => {{
+          list.innerHTML += `
+            <div class="hospital-card bg-white p-4 rounded shadow">
+              <h2 class="font-semibold text-lg mb-1">${{h.name}}</h2>
+              <p class="text-sm text-gray-500 mb-1">${{h.address}}</p>
+              <div class="flex space-x-2 mt-3">
+                ${{h.phone ? `<a href="tel:${{h.phone}}" class="flex-1 bg-green-100 text-green-700 text-center py-2 rounded">Telepon</a>` : ''}}
+                ${{h.wa ? `<a href="https://wa.me/${{h.wa}}" class="flex-1 bg-green-600 text-white text-center py-2 rounded">WhatsApp</a>` : ''}}
+              </div>
             </div>
-          </div>`;
-      });
-    }
+          `;
+        }});
+    }}
 
     document.getElementById('search').addEventListener('input', renderList);
     detectLocation();
+    renderList();
   </script>
 </body>
 </html>
