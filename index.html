@@ -1,721 +1,283 @@
-
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daftar Rumah Sakit Surabaya</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#10b981',
-            secondary: '#0ea5e9',
-          },
-          borderRadius: {
-            'button': '8px',
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SILANKES - SBYGSK</title>
+    <link rel="icon" href="health.png" type="image/png" /> <!-- Ini icon judul -->
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { primary: '#10b981', secondary: '#0ea5e9' }, borderRadius: { 'none': '0px', 'sm': '4px', DEFAULT: '8px', 'md': '12px', 'lg': '16px', 'xl': '20px', '2xl': '24px', '3xl': '32px', 'full': '9999px', 'button': '8px' } } } }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
         }
-      }
-    }
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
-  <style>
-    body { font-family: sans-serif; background-color: #f9fafb; }
-    .hospital-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
-    .contact-btn:hover { transform: translateY(-2px); }
-  </style>
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hero-section {
+            background-image: url('https://readdy.ai/api/search-image?query=A%20modern%20healthcare%20facility%20with%20a%20clean%20and%20welcoming%20environment.%20The%20image%20shows%20a%20hospital%20building%20with%20a%20blue%20sky%20background.%20The%20left%20side%20of%20the%20image%20has%20a%20smooth%20gradient%20transition%20to%20a%20light%20background%2C%20creating%20space%20for%20text.%20The%20composition%20is%20balanced%20with%20architectural%20elements%20on%20the%20right%20side.&width=1600&height=800&seq=healthcare1&orientation=landscape');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .button-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(79, 156, 224, 0.3);
+        }
+    </style>
 </head>
-<body class="min-h-screen">
-  <div class="container mx-auto px-4 py-8 max-w-6xl">
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">Daftar Rumah Sakit Surabaya</h1>
-      <div class="mb-6 flex items-center space-x-3">
-        <div id="location-status" class="flex items-center text-sm text-gray-600 whitespace-nowrap">
-          <i class="ri-map-pin-user-line mr-1 text-blue-500"></i>
-          <span id="location-text">Mendeteksi lokasi...</span>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header Navigation -->
+    <header class="w-full bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-['Pacifico'] text-primary">uyhaw©2025</h1>
+            </div>
+            <!-- <nav class="hidden md:flex space-x-8">
+        <a href="#" class="text-gray-700 hover:text-primary transition-colors">Beranda</a>
+        <a href="#" class="text-gray-700 hover:text-primary transition-colors">Tentang Kami</a>
+        <a href="#" class="text-gray-700 hover:text-primary transition-colors">Layanan</a>
+        <a href="#" class="text-gray-700 hover:text-primary transition-colors">Kontak</a>
+        </nav> -->
+            <div class="md:hidden w-8 h-8 flex items-center justify-center">
+                <i class="ri-menu-line text-xl text-gray-700"></i>
+            </div>
         </div>
-        <div class="relative flex-1">
-          <input type="search" id="search" placeholder="Cari Rumah Sakit..." class="w-full pl-10 pr-10 py-3 rounded-lg shadow border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary">
-          <i class="ri-search-line absolute left-3 top-3.5 text-gray-400"></i>
-          <button onclick="resetSearch()" class="absolute right-3 top-3.5 text-gray-400 hover:text-red-500 hidden" id="clearSearch"><i class="ri-close-line"></i></button>
-        </div>
-      </div>
     </header>
-    <div id="hospital-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    <footer class="text-center mt-12 text-sm text-gray-500">uyhaw©2025</footer>
-  </div>
-
-  <script>
-    const hospitals = [
-     
-       {
-  name: "RSUD Dr. Soetomo",
-  address: "Jl. Mayjen Prof. Dr. Moestopo No. 6–8, Airlangga, Gubeng, Surabaya",
-  phone: "031-5501078",
-  wa: "6281216700101",
-  lat: -7.2675,
-  lng: 112.7562
-},
-{
-  name: "RSUD dr. Mohamad Soewandhie",
-  address: "Jl. Tambak Rejo No. 45–47, Tambakrejo, Simokerto, Surabaya",
-  phone: "031-3717141",
-  wa: "",
-  lat: -7.245712,
-  lng: 112.754721
-},
-{
-  name: "RSUD Bhakti Dharma Husada",
-  address: "Jl. Kendung No. 115–117, Sememi, Benowo, Surabaya",
-  phone: "031-8295922",
-  wa: "",
-  lat: -7.2257,
-  lng: 112.6396
-},
-{
-  name: "RSU Haji Surabaya",
-  address: "Jl. Manyar Kertoadi, Klampis Ngasem, Sukolilo, Surabaya",
-  phone: "031-5947760",
-  wa: "",
-  lat: -7.301557,
-  lng: 112.775339
-},
-{
-  name: "RS UBAYA",
-  address: "Jl. Panjang Jiwo Permai No. 89, Surabaya",
-  phone: "031-99211500",
-  wa: "6281234564030",
-  lat: -7.31905,
-  lng: 112.76275
-},
-{
-  name: "RS Royal Surabaya",
-  address: "Jl. Rungkut Industri I/1, Surabaya",
-  phone: "031-8476111",
-  wa: "62816565767",
-  lat: -7.31979,
-  lng: 112.77222
-},
-{
-  name: "Mayapada Hospital Surabaya",
-  address: "Jl. Mayjend Sungkono No. 16–20, Pakis, Sawahan, Surabaya",
-  phone: "031-99217777",
-  wa: "6285799217777",
-  lat: -7.290157,
-  lng: 112.715678
-},
-{
-  name: "RS Premier Surabaya",
-  address: "Jl. Nginden Intan Barat Blok B, Sukolilo, Surabaya",
-  phone: "031-5993211",
-  wa: "6281222309911",
-  lat: -7.30204,
-  lng: 112.77146
-},
-{
-  name: "RS Siloam Surabaya",
-  address: "Jl. Raya Gubeng No. 70, Gubeng, Surabaya",
-  phone: "031-5031821",
-  wa: "",
-  lat: -7.28125,
-  lng: 112.74866
-},
-{
-  name: "RS Mitra Keluarga Satelit",
-  address: "Jl. Satelit Indah II, Darmo Satelit, Surabaya",
-  phone: "031-7345111",
-  wa: "",
-  lat: -7.27883,
-  lng: 112.69587
-},
-{
-  name: "RS William Booth",
-  address: "Jl. Diponegoro No. 34, Surabaya",
-  phone: "031-5678917",
-  wa: "",
-  lat: -7.28151,
-  lng: 112.73539
-},
-{
-  name: "RS Islam Jemursari",
-  address: "Jl. Jemursari No. 51-57, Surabaya",
-  phone: "031-8471877",
-  wa: "",
-  lat: -7.31950,
-  lng: 112.74748
-},
-{
-  name: "RS Griya Husada",
-  address: "Jl. Bubutan No. 93, Surabaya",
-  phone: "031-5340828",
-  wa: "",
-  lat: -7.24837,
-  lng: 112.73119
-},
-{
-  name: "RS Gotong Royong",
-  address: "Jl. Semampir Indah No. 97, Surabaya",
-  phone: "031-5939691",
-  wa: "",
-  lat: -7.22276,
-  lng: 112.74167
-},
-{
-  name: "RS Denkesyah TNI AD",
-  address: "Jl. Kesatrian No. 17, Surabaya",
-  phone: "031-5670656",
-  wa: "",
-  lat: -7.26697,
-  lng: 112.73519
-},
-{
-  name: "RS TNI AU Soemitro",
-  address: "Jl. Serayu No. 17, Surabaya",
-  phone: "031-576662",
-  wa: "",
-  lat: -7.27783,
-  lng: 112.75576
-},
-{
-  name: "RS Pura Raharja",
-  address: "Jl. Semolowaru No. 84, Surabaya",
-  phone: "031-5934092",
-  wa: "",
-  lat: -7.29083,
-  lng: 112.79132
-},
-{
-  name: "RS Katolik St. Vincentius a Paulo (RKZ)",
-  address: "Jl. Diponegoro No. 51, Surabaya",
-  phone: "031-5677562",
-  wa: "",
-  lat: -7.28107,
-  lng: 112.73574
-},
-{
-  name: "RS Jiwa Menur",
-  address: "Jl. Menur No. 120, Surabaya",
-  phone: "031-5022436",
-  wa: "",
-  lat: -7.28671,
-  lng: 112.76637
-},
-{
-  name: "RS PHC Surabaya",
-  address: "Jl. Perak Timur No. 480, Surabaya",
-  phone: "031-3294801",
-  wa: "",
-  lat: -7.22065,
-  lng: 112.74788
-},
-{
-  name: "RS Petrokimia Gresik (Cabang Surabaya)",
-  address: "Jl. Arif Rahman Hakim No. 7, Surabaya",
-  phone: "031-5910881",
-  wa: "",
-  lat: -7.28958,
-  lng: 112.78011
-},
-{
-  name: "RSIA Putri",
-  address: "Jl. Patua No. 3, Surabaya",
-  phone: "031-5452244",
-  wa: "",
-  lat: -7.25838,
-  lng: 112.74378
-},
-{
-  name: "RSIA Kendangsari",
-  address: "Jl. Kendangsari No. 38, Surabaya",
-  phone: "031-8476000",
-  wa: "",
-  lat: -7.32983,
-  lng: 112.75262
-},
-{
-  name: "RSIA Graha Medika",
-  address: "Jl. Manyar Kartika No. 36, Surabaya",
-  phone: "031-5032585",
-  wa: "",
-  lat: -7.28519,
-  lng: 112.78142
-},
-{
-  name: "RSIA Cempaka Putih",
-  address: "Jl. Tidar No. 89, Surabaya",
-  phone: "031-5345413",
-  wa: "",
-  lat: -7.26258,
-  lng: 112.73539
-},
-{
-  name: "RSIA Lombok Dua Dua",
-  address: "Jl. Lombok No. 22, Surabaya",
-  phone: "031-5022044",
-  wa: "",
-  lat: -7.26486,
-  lng: 112.74539
-},
-{
-  name: "RSIA Pusura",
-  address: "Jl. Genteng Kali No. 97, Surabaya",
-  phone: "031-5341401",
-  wa: "",
-  lat: -7.26429,
-  lng: 112.73963
-},
-{
-  name: "RSIA Arvita Bunda",
-  address: "Jl. Raya Mulyosari No. 338, Surabaya",
-  phone: "031-5991111",
-  wa: "",
-  lat: -7.26791,
-  lng: 112.80155
-},
-{
-  name: "RS Onkologi Surabaya",
-  address: "Jl. Arif Rahman Hakim No. 95, Surabaya",
-  phone: "031-5936666",
-  wa: "",
-  lat: -7.28547,
-  lng: 112.78853
-},
-{
-  name: "National Hospital Surabaya",
-  address: "Jl. Boulevard Famili Selatan, Citraland, Surabaya",
-  phone: "031-2975777",
-  wa: "",
-  lat: -7.27191,
-  lng: 112.64792
-},
-{
-  name: "RS Siti Khadijah",
-  address: "Jl. Kalibokor Selatan No. 58, Surabaya",
-  phone: "031-5021660",
-  wa: "",
-  lat: -7.28533,
-  lng: 112.76547
-},
-{
-  name: "RS Ananda",
-  address: "Jl. Raya Rungkut Menanggal No. 41, Surabaya",
-  phone: "031-8432144",
-  wa: "",
-  lat: -7.33484,
-  lng: 112.74829
-},
-{
-  name: "RS Islam Surabaya A. Yani",
-  address: "Jl. Ahmad Yani No. 2-4, Surabaya",
-  phone: "031-8284506",
-  wa: "6282133222246",
-  lat: -7.32128,
-  lng: 112.73471
-},
-{
-  name: "RS Bedah Surabaya",
-  address: "Jl. Manyar Kartika No. 34, Surabaya",
-  phone: "031-5930680",
-  wa: "",
-  lat: -7.28469,
-  lng: 112.78138
-},
-{
-  name: "RSIA Kendangsari Merr",
-  address: "Jl. Dr. Ir. H. Soekarno No. 28, Surabaya",
-  phone: "031-8703577",
-  wa: "",
-  lat: -7.31999,
-  lng: 112.79021
-},
-{
-  name: "RSIA Nur Ummi",
-  address: "Jl. Simorejo Sari No. 13 A, Surabaya",
-  phone: "031-5314268",
-  wa: "",
-  lat: -7.23625,
-  lng: 112.69011
-},
-{
-  name: "RSIA Sayang Ibu",
-  address: "Jl. Raya Kebraon No. 2A, Surabaya",
-  phone: "031-7668666",
-  wa: "",
-  lat: -7.32348,
-  lng: 112.68463
-},
-{
-  name: "RSIA Citra Medika",
-  address: "Jl. Raya Mulyosari No. 342, Surabaya",
-  phone: "031-5948850",
-  wa: "",
-  lat: -7.26741,
-  lng: 112.80202
-},
-{
-  name: "RSIA Putri Surabaya",
-  address: "Jl. Patua No. 3, Surabaya",
-  phone: "031-5452244",
-  wa: "",
-  lat: -7.25838,
-  lng: 112.74378
-},
-{
-  name: "RSIA Siti Hajar",
-  address: "Jl. Raya Menur No. 100, Surabaya",
-  phone: "031-5025719",
-  wa: "",
-  lat: -7.28586,
-  lng: 112.76361
-},
-{
-  name: "RS Kasih Ibu",
-  address: "Jl. Kalirungkut No. 27, Surabaya",
-  phone: "031-8710355",
-  wa: "",
-  lat: -7.33218,
-  lng: 112.78764
-},
-{
-  name: "RS Onkologi Surabaya",
-  address: "Jl. Arif Rahman Hakim No. 95, Surabaya",
-  phone: "031-5936666",
-  wa: "",
-  lat: -7.28547,
-  lng: 112.78853
-},
-{
-  name: "RSIA Siti Aisyah",
-  address: "Jl. Bulak Banteng Wetan No. 11, Surabaya",
-  phone: "031-51507350",
-  wa: "",
-  lat: -7.22067,
-  lng: 112.79774
-},
-{
-  name: "RS Bersalin Nyai Ageng Pinatih",
-  address: "Jl. Kedung Anyar No. 105, Surabaya",
-  phone: "031-5344356",
-  wa: "",
-  lat: -7.26279,
-  lng: 112.71723
-},
-{
-  name: "RS Bunda Surabaya",
-  address: "Jl. Kandangan No. 23-24, Surabaya",
-  phone: "031-7440077",
-  wa: "",
-  lat: -7.22907,
-  lng: 112.63551
-},
-{
-  name: "RSIA Pura Raharja",
-  address: "Jl. Semolowaru No. 84, Surabaya",
-  phone: "031-5934092",
-  wa: "",
-  lat: -7.29083,
-  lng: 112.79132
-},
-{
-  name: "RSIA Arvita Bunda",
-  address: "Jl. Raya Mulyosari No. 338, Surabaya",
-  phone: "031-5991111",
-  wa: "",
-  lat: -7.26791,
-  lng: 112.80155
-},
-{
-  name: "RSIA Queen Surabaya",
-  address: "Jl. Rungkut Mapan Barat No. D-8, Surabaya",
-  phone: "031-8705555",
-  wa: "",
-  lat: -7.32826,
-  lng: 112.78085
-},
-{
-  name: "RSIA Lombok Dua Dua",
-  address: "Jl. Lombok No. 22, Surabaya",
-  phone: "031-5022044",
-  wa: "",
-  lat: -7.26486,
-  lng: 112.74539
-},
-{
-  name: "RSIA Kendangsari",
-  address: "Jl. Kendangsari No. 38, Surabaya",
-  phone: "031-8476000",
-  wa: "",
-  lat: -7.32983,
-  lng: 112.75262
-},
-{
-  name: "RS Al Irsyad Surabaya",
-  address: "Jl. KH. Mansyur No. 210-212, Surabaya",
-  phone: "031-5311586",
-  wa: "",
-  lat: -7.24873,
-  lng: 112.72562
-},
-{
-  name: "RSIA Putri Surabaya (Cabang)",
-  address: "Jl. Patua No. 3, Surabaya",
-  phone: "031-5452244",
-  wa: "",
-  lat: -7.25838,
-  lng: 112.74378
-},
-{
-  name: "RSIA Ibu dan Anak Melati Husada",
-  address: "Jl. Tidar No. 124, Surabaya",
-  phone: "031-5340546",
-  wa: "",
-  lat: -7.26232,
-  lng: 112.73510
-},
-{
-  name: "RSIA Anugerah Medika",
-  address: "Jl. Barata Jaya XIX No. 25, Surabaya",
-  phone: "031-5042407",
-  wa: "",
-  lat: -7.30528,
-  lng: 112.75291
-},
-{
-  name: "RSIA Putri (Cabang Patua)",
-  address: "Jl. Patua No. 3, Surabaya",
-  phone: "031-5452244",
-  wa: "",
-  lat: -7.25838,
-  lng: 112.74378
-},
-{
-  name: "RSIA Mitra Keluarga Kenjeran",
-  address: "Jl. Kenjeran No. 506, Surabaya",
-  phone: "031-3811222",
-  wa: "",
-  lat: -7.25152,
-  lng: 112.77713
-},
-{
-  name: "RSIA Mitra Keluarga Darmo",
-  address: "Jl. Raya Darmo No. 90, Surabaya",
-  phone: "031-5678999",
-  wa: "",
-  lat: -7.28112,
-  lng: 112.73448
-},
-{
-  name: "RSIA Kartika Husada",
-  address: "Jl. Raya Sememi No. 42, Surabaya",
-  phone: "031-7405454",
-  wa: "",
-  lat: -7.21847,
-  lng: 112.67067
-},
-{
-  name: "RSIA Medika Utama",
-  address: "Jl. Raya Gunungsari No. 35, Surabaya",
-  phone: "031-5668666",
-  wa: "",
-  lat: -7.30099,
-  lng: 112.70938
-},
-{
-  name: "RSIA Siti Hajar (Cabang Menur)",
-  address: "Jl. Raya Menur No. 100, Surabaya",
-  phone: "031-5025719",
-  wa: "",
-  lat: -7.28586,
-  lng: 112.76361
-},
-{
-  name: "RSIA Kendangsari Merr (Cabang)",
-  address: "Jl. Dr. Ir. H. Soekarno No. 28, Surabaya",
-  phone: "031-8703577",
-  wa: "",
-  lat: -7.31999,
-  lng: 112.79021
-},
-{
-  name: "RSIA Queen Surabaya (Cabang)",
-  address: "Jl. Rungkut Mapan Barat No. D-8, Surabaya",
-  phone: "031-8705555",
-  wa: "",
-  lat: -7.32826,
-  lng: 112.78085
-},
-{
-  name: "RSIA Arvita Bunda (Cabang)",
-  address: "Jl. Raya Mulyosari No. 338, Surabaya",
-  phone: "031-5991111",
-  wa: "",
-  lat: -7.26791,
-  lng: 112.80155
-},
-{
-  name: "RSIA Putri Surabaya (Rekap)",
-  address: "Jl. Patua No. 3, Surabaya",
-  phone: "031-5452244",
-  wa: "",
-  lat: -7.25838,
-  lng: 112.74378
-},
-{
-  name: "RSIA Kendangsari (Rekap)",
-  address: "Jl. Kendangsari No. 38, Surabaya",
-  phone: "031-8476000",
-  wa: "",
-  lat: -7.32983,
-  lng: 112.75262
-},
-{
-  name: "RSIA Arvita Bunda (Rekap)",
-  address: "Jl. Raya Mulyosari No. 338, Surabaya",
-  phone: "031-5991111",
-  wa: "",
-  lat: -7.26791,
-  lng: 112.80155
-},
-{
-  name: "RSIA Queen Surabaya (Rekap)",
-  address: "Jl. Rungkut Mapan Barat No. D-8, Surabaya",
-  phone: "031-8705555",
-  wa: "",
-  lat: -7.32826,
-  lng: 112.78085
-},
-{
-  name: "RSIA Siti Hajar (Rekap)",
-  address: "Jl. Raya Menur No. 100, Surabaya",
-  phone: "031-5025719",
-  wa: "",
-  lat: -7.28586,
-  lng: 112.76361
-},
-{
-  name: "RSIA Citra Medika (Rekap)",
-  address: "Jl. Raya Mulyosari No. 342, Surabaya",
-  phone: "031-5948850",
-  wa: "",
-  lat: -7.26741,
-  lng: 112.80202
-},
-{
-  name: "RSIA Pura Raharja (Rekap)",
-  address: "Jl. Semolowaru No. 84, Surabaya",
-  phone: "031-5934092",
-  wa: "",
-  lat: -7.29083,
-  lng: 112.79132
-}
-    ];
-
-    let userLocation = null;
-    const locationText = document.getElementById('location-text');
-
-    function resetSearch() {
-      document.getElementById('search').value = '';
-      document.getElementById('clearSearch').classList.add('hidden');
-      renderHospitals();
-    }
-
-    document.getElementById('search').addEventListener('input', function(e) {
-      const keyword = e.target.value.toLowerCase();
-      document.getElementById('clearSearch').classList.toggle('hidden', keyword === '');
-      renderHospitals(keyword);
-    });
-
-    function getDistance(lat1, lon1, lat2, lon2) {
-      function toRad(x) { return x * Math.PI / 180; }
-      const R = 6371;
-      const dLat = toRad(lat2 - lat1);
-      const dLon = toRad(lon2 - lon1);
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
-    }
-
-    function renderHospitals(filter = '') {
-      const container = document.getElementById('hospital-container');
-      container.innerHTML = '';
-
-      let filteredHospitals = hospitals.filter(h =>
-        !filter ||
-        h.name.toLowerCase().includes(filter) ||
-        h.address.toLowerCase().includes(filter)
-                                              );
-
-      if (userLocation) {
-        filteredHospitals.sort((a, b) => {
-          const distA = getDistance(userLocation.lat, userLocation.lng, a.lat, a.lng);
-          const distB = getDistance(userLocation.lat, userLocation.lng, b.lat, b.lng);
-          return distA - distB;
-        });
-      }
-
-      filteredHospitals.forEach(h => {
-        let distanceText = 'Jarak tidak tersedia';
-        if (userLocation) {
-          const dist = getDistance(userLocation.lat, userLocation.lng, h.lat, h.lng).toFixed(2);
-          distanceText = `${dist} km dari lokasi Anda`;
-        }
-
-        container.innerHTML += `
-          <div class="hospital-card bg-white p-6 rounded-lg shadow transition">
-            <div class="flex justify-between items-start mb-4">
-              <div>
-                <h2 class="text-xl font-semibold text-gray-800">${h.name}</h2>
-                <div class="flex items-center text-sm text-gray-500 mt-1">
-                  <i class="ri-map-pin-line text-base mr-1 text-primary"></i>
-                  <span>${distanceText}</span>
+    <!-- Hero Section -->
+    <section class="hero-section w-full relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-white/90 to-white/30"></div>
+        <div class="container mx-auto px-4 py-20 md:py-32 relative z-10">
+            <div class="max-w-2xl">
+                <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Informasi Layanan Kesehatan Surabaya &
+                    Gresik</h1>
+                <p class="text-lg md:text-xl text-gray-700 mb-8">Akses informasi terlengkap tentang fasilitas kesehatan
+                    di Surabaya dan Gresik untuk kebutuhan medis Anda dan keluarga.</p>
+                <div class="flex flex-wrap gap-4">
+                    <button
+                        class="bg-primary text-white px-6 py-3 !rounded-button shadow-lg hover:bg-primary/90 transition-all whitespace-nowrap"><a
+                            href="https://surabaya.go.id/" target="_blank">Kota Surabaya</a></button>
+                    <button
+                        class="bg-white text-primary border border-primary px-6 py-3 !rounded-button shadow-md hover:bg-gray-50 transition-all whitespace-nowrap"><a
+                            href="https://dinkes.gresikkab.go.id/" target="_blank">Kabupaten Gresik</a></button>
                 </div>
-              </div>
             </div>
-            <p class="text-gray-600 text-sm mb-4"><i class="ri-map-pin-line text-sm text-gray-500 mr-2"></i>${h.address}</p>
-            <div class="flex space-x-3">
-              <a href="tel:${h.phone}" class="contact-btn flex-1 flex items-center justify-center bg-green-100 text-green-700 py-2 rounded-lg font-medium text-sm"><i class="ri-phone-line mr-2"></i>Telepon</a>
-              ${h.wa ? `<a href="https://wa.me/${h.wa}" class="contact-btn flex-1 flex items-center justify-center bg-green-600 text-white py-2 rounded-lg font-medium text-sm"><i class="ri-whatsapp-line mr-2"></i>WhatsApp</a>` : ''}
-              <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.address)}" target="_blank" class="contact-btn flex-1 flex items-center justify-center bg-blue-600 text-white py-2 rounded-lg font-medium text-sm"><i class="ri-map-pin-line mr-2"></i>Buka Maps</a>
+        </div>
+    </section>
+    <!-- Main Content Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Pilih Layanan Kesehatan</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Temukan informasi lengkap tentang fasilitas kesehatan yang
+                    tersedia di Kota Surabaya dan Kabupaten Gresik untuk memenuhi kebutuhan perawatan kesehatan Anda.
+                </p>
             </div>
-          </div>
-        `;
-      });
-    }
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all hover:shadow-xl">
+                    <div class="h-48 bg-blue-50 flex items-center justify-center">
+                        <div class="w-20 h-20 flex items-center justify-center bg-primary/10 rounded-full">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/City_of_Surabaya_Logo.svg"
+                                alt="Logo Surabaya" class="w-12 h-12 object-contain" />
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-3xl font-semibold mb-1 text-gray-900">Rumah Sakit</h2>
+                        <h4 class="text-lm font-medium text-gray-700 mb-3">Kota Surabaya</h4>
+                        <p class="text-gray-600 mb-4">
+                            Informasi lengkap tentang rumah sakit di Kota Surabaya, termasuk alamat, kontak, dan layanan
+                            yang tersedia.
+                        </p>
+                        <button
+                            class="w-full bg-primary text-white py-3 !rounded-button button-hover transition-all flex items-center justify-center whitespace-nowrap">
+                            <span><a href="rsudsby.html" target="_blank">Lihat Detail</a></span>
+                            <i class="ri-arrow-right-line ml-2"></i>
+                        </button>
+                    </div>
+                </div>
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const lat = pos.coords.latitude;
-          const lng = pos.coords.longitude;
-          console.log("Lokasi ditemukan:", lat, lng);
-          userLocation = { lat, lng };
-          fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
-            .then(res => res.json())
-            .then(data => {
-              locationText.textContent = data.display_name || 'Lokasi ditemukan';
-            })
-            .catch((err) => {
-              console.error("Gagal ambil nama lokasi:", err);
-              locationText.textContent = 'Lokasi ditemukan';
+                <!-- Card 2 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all hover:shadow-xl">
+                    <div class="h-48 bg-blue-50 flex items-center justify-center">
+                        <div class="w-20 h-20 flex items-center justify-center bg-primary/10 rounded-full">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/City_of_Surabaya_Logo.svg"
+                                alt="Logo Surabaya" class="w-12 h-12 object-contain" />
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h1 class="text-3xl font-semibold mb-1 text-gray-900">Puskesmas</h1>
+                        <h4 class="text-l font-medium text-gray-700 mb-3">Kota Surabaya</h4>
+                        <p class="text-gray-600 mb-4">
+                            Daftar puskesmas di Kota Surabaya beserta informasi jam operasional, layanan, dan fasilitas
+                            yang tersedia.
+                        </p>
+                        <button
+                            class="w-full bg-primary text-white py-3 !rounded-button button-hover transition-all flex items-center justify-center whitespace-nowrap">
+                            <span><a href="under.html" target="_blank">Lihat Detail</a></span>
+                            <i class="ri-arrow-right-line ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all hover:shadow-xl">
+                    <div class="h-48 bg-blue-50 flex items-center justify-center">
+                        <div class="w-20 h-20 flex items-center justify-center bg-primary/10 rounded-full">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Lambang_Kabupaten_Gresik.png/1200px-Lambang_Kabupaten_Gresik.png"
+                                alt="Logo Surabaya" class="w-12 h-12 object-contain" />
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h1 class="text-3xl font-semibold mb-1 text-gray-900">Rumah Sakit</h1>
+                        <h4 class="text-l font-medium text-gray-700 mb-3">Kabupaten Gresik</h4>
+                        <p class="text-gray-600 mb-4">
+                            Informasi rumah sakit di Kabupaten Gresik dengan detail pelayanan, spesialisasi, dan
+                            fasilitas yang disediakan.
+                        </p>
+                        <button
+                            class="w-full bg-primary text-white py-3 !rounded-button button-hover transition-all flex items-center justify-center whitespace-nowrap">
+                            <span>Lihat Detail</span>
+                            <i class="ri-arrow-right-line ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+    </section>
+    <!-- Features Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Fitur Utama</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Nikmati berbagai kemudahan dalam mencari informasi layanan
+                    kesehatan melalui platform kami.</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <div class="w-14 h-14 mx-auto mb-4 flex items-center justify-center bg-blue-50 rounded-full">
+                        <i class="ri-search-line ri-xl text-primary"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Pencarian Cepat</h3>
+                    <p class="text-gray-600 text-sm">Temukan fasilitas kesehatan dengan cepat dan mudah</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <div class="w-14 h-14 mx-auto mb-4 flex items-center justify-center bg-blue-50 rounded-full">
+                        <i class="ri-map-pin-line ri-xl text-primary"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Lokasi Terdekat</h3>
+                    <p class="text-gray-600 text-sm">Temukan fasilitas kesehatan terdekat dari lokasi Anda</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <div class="w-14 h-14 mx-auto mb-4 flex items-center justify-center bg-blue-50 rounded-full">
+                        <i class="ri-information-line ri-xl text-primary"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Informasi Lengkap</h3>
+                    <p class="text-gray-600 text-sm">Detail lengkap tentang layanan dan fasilitas yang tersedia</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <div class="w-14 h-14 mx-auto mb-4 flex items-center justify-center bg-blue-50 rounded-full">
+                        <i class="ri-phone-line ri-xl text-primary"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Kontak Darurat</h3>
+                    <p class="text-gray-600 text-sm">Akses cepat ke nomor telepon darurat fasilitas kesehatan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h1 class="text-2xl font-['Pacifico'] text-white mb-4">uyhaw©2025</h1>
+                    <p class="text-gray-400 mb-4">Informasi lengkap tentang layanan kesehatan di Surabaya dan Gresik
+                        untuk kebutuhan medis Anda dan keluarga.</p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition-colors">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition-colors">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tautan Cepat</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Beranda</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Tentang Kami</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Layanan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Kontak</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Layanan</h3>
+                    <!-- <ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Rumah Sakit Surabaya</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Puskesmas Surabaya</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Rumah Sakit Gresik</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Klinik Kesehatan</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Apotek</a></li>
+</ul> -->
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Kontak</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center mr-2 mt-1">
+                                <i class="ri-map-pin-line text-gray-400"></i>
+                            </div>
+                            <!-- <span class="text-gray-400">Jl. Pemuda No. 123, Surabaya, Jawa Timur, Indonesia</span> -->
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center mr-2">
+                                <i class="ri-phone-line text-gray-400"></i>
+                            </div>
+                            <span class="text-gray-400">+620</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center mr-2">
+                                <i class="ri-mail-line text-gray-400"></i>
+                            </div>
+                            <span class="text-gray-400">info@medinfo.id</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>uyhaw©2025 - Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+    <script id="mobileMenuScript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuButton = document.querySelector('.ri-menu-line').parentElement;
+            const nav = document.querySelector('nav');
+            menuButton.addEventListener('click', function () {
+                if (nav.classList.contains('hidden')) {
+                    nav.classList.remove('hidden');
+                    nav.classList.add('flex', 'flex-col', 'absolute', 'top-16', 'right-4', 'bg-white', 'shadow-lg', 'p-4', 'rounded', 'z-50');
+                } else {
+                    nav.classList.add('hidden');
+                    nav.classList.remove('flex', 'flex-col', 'absolute', 'top-16', 'right-4', 'bg-white', 'shadow-lg', 'p-4', 'rounded', 'z-50');
+                }
             });
-          renderHospitals();
-        },
-        (err) => {
-          console.error("Gagal deteksi lokasi:", err);
-          locationText.textContent = 'Aktifkan Lokasi Device Kamu';
-          renderHospitals();
-        },
-        { timeout: 10000 }
-      );
-    } else {
-      locationText.textContent = 'Geolokasi tidak didukung';
-      renderHospitals();
-    }
-  </script>
+        });
+    </script>
 </body>
 </html>
